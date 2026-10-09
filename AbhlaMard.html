@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABHLA MARD — Smashing Patriarchy, One Tee At A Time</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --dark-grey: #1a1a1a;
+    --grey: #2d2d2d;
+    --white: #fafafa;
+    --red: #e8303a;
+    --red-dark: #c41e28;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .heading {
+    font-family: 'Archivo Black', sans-serif;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .screen {
+    min-height: 100vh;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+  }
+
+  .screen.active {
+    display: flex;
+    animation: fadeIn 0.5s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ============ INTRO SCREEN ============ */
+  #intro {
+    background: var(--black);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .noise-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: 
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.02) 2px, rgba(255,255,255,0.02) 4px);
+    pointer-events: none;
+  }
+
+  .brand-title {
+    font-size: clamp(3rem, 12vw, 8rem);
+    color: var(--white);
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .brand-title span {
+    color: var(--red);
+    display: inline-block;
+    animation: glitch 3s infinite;
+  }
+
+  @keyframes glitch {
+    0%, 90%, 100% { transform: translate(0); }
+    92% { transform: translate(-2px, 2px); }
+    94% { transform: translate(2px, -2px); }
+    96% { transform: translate(-1px, 1px); }
+  }
+
+  .tagline {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    color: var(--white);
+    opacity: 0.8;
+    margin-bottom: 3rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  .tagline .red-text { color: var(--red); font-weight: 700; }
+
+  .cta-btn {
+    background: var(--red);
+    color: var(--white);
+    border: none;
+    padding: 1.2rem 3rem;
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .cta-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: var(--white);
+    transition: left 0.3s ease;
+    z-index: -1;
+  }
+
+  .cta-btn:hover::before { left: 0; }
+  .cta-btn:hover { color: var(--black); }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    font-size: 0.85rem;
+    opacity: 0.5;
+    letter-spacing: 0.1em;
+  }
+
+  /* ============ GENDER SELECT ============ */
+  #gender-select {
+    background: var(--black);
+    text-align: center;
+  }
+
+  .question-label {
+    font-size: 0.9rem;
+    color: var(--red);
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  .big-question {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    margin-bottom: 3rem;
+    max-width: 800px;
+  }
+
+  .gender-options {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .gender-btn {
+    background: var(--dark-grey);
+    border: 2px solid var(--grey);
+    color: var(--white);
+    padding: 2rem 2.5rem;
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 180px;
+  }
+
+  .gender-btn:hover {
+    border-color: var(--red);
+    background: var(--red);
+    transform: translateY(-5px);
+  }
+
+  /* ============ QUIZ SCREEN ============ */
+  #quiz {
+    background: var(--black);
+    text-align: center;
+    position: relative;
+  }
+
+  .progress-bar {
+    position: absolute;
+    top: 0; left: 0;
+    height: 4px;
+    background: var(--red);
+    transition: width 0.4s ease;
+  }
+
+  .progress-track {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--grey);
+  }
+
+  .quiz-counter {
+    font-size: 0.85rem;
+    color: var(--red);
+    letter-spacing: 0.2em;
+    margin-bottom: 1.5rem;
+  }
+
+  .quiz-question {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    max-width: 800px;
+    margin-bottom: 3rem;
+  }
+
+  .quiz-options {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 700px;
+  }
+
+  .quiz-option {
+    background: transparent;
+    border: 2px solid var(--white);
+    color: var(--white);
+    padding: 1.2rem 2rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 200px;
+  }
+
+  .quiz-option:hover {
+    background: var(--white);
+    color: var(--black);
+  }
+
+  .quiz-option.problematic {
+    border-color: var(--red);
+  }
+
+  .quiz-option.problematic:hover {
+    background: var(--red);
+    border-color: var(--red);
+    color: var(--white);
+  }
+
+  /* ============ RESULTS/SHOP SCREEN ============ */
+  #results {
+    background: var(--black);
+    align-items: stretch;
+    padding: 0;
+  }
+
+  .results-header {
+    text-align: center;
+    padding: 4rem 2rem 2rem;
+    border-bottom: 3px solid var(--red);
+  }
+
+  .results-title {
+    font-size: clamp(2rem, 6vw, 4rem);
+    margin-bottom: 1rem;
+  }
+
+  .results-subtitle {
+    font-size: 1.1rem;
+    opacity: 0.8;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  .score-badge {
+    display: inline-block;
+    background: var(--red);
+    color: var(--white);
+    padding: 0.5rem 1.5rem;
+    font-family: 'Archivo Black', sans-serif;
+    margin-top: 1.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .products-section {
+    padding: 3rem 2rem 5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .section-label {
+    font-size: 0.9rem;
+    color: var(--red);
+    letter-spacing: 0.2em;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .product-card {
+    background: var(--dark-grey);
+    border: 2px solid var(--grey);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .product-card:hover {
+    border-color: var(--red);
+    transform: translateY(-8px);
+  }
+
+  .product-image {
+    width: 100%;
+    aspect-ratio: 1;
+    background: var(--grey);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-image::before {
+    content: 'TEE';
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 0.75rem;
+    position: absolute;
+    top: 10px; right: 10px;
+    background: var(--red);
+    padding: 3px 8px;
+    letter-spacing: 0.1em;
+  }
+
+  .product-mockup {
+    width: 70%;
+    padding: 1.5rem;
+    text-align: center;
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1.1rem;
+    color: var(--white);
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+
+  .product-info {
+    padding: 1.5rem;
+  }
+
+  .product-name {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+
+  .product-tag {
+    font-size: 0.85rem;
+    color: var(--red);
+    margin-bottom: 1rem;
+  }
+
+  .product-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .product-price {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1.2rem;
+  }
+
+  .add-btn {
+    background: var(--red);
+    color: var(--white);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+  }
+
+  .add-btn:hover {
+    background: var(--white);
+    color: var(--black);
+  }
+
+  .view-all-container {
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .retake-btn {
+    background: transparent;
+    border: 2px solid var(--white);
+    color: var(--white);
+    padding: 1rem 2rem;
+    font-family: 'Archivo Black', sans-serif;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0.5rem;
+  }
+
+  .retake-btn:hover {
+    background: var(--white);
+    color: var(--black);
+  }
+
+  /* ============ CART NOTIFICATION ============ */
+  .cart-notification {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    background: var(--red);
+    color: var(--white);
+    padding: 1rem 2rem;
+    font-weight: 700;
+    transform: translateX(150%);
+    transition: transform 0.4s ease;
+    z-index: 1000;
+  }
+
+  .cart-notification.show {
+    transform: translateX(0);
+  }
+
+  /* ============ MANIFESTO STRIP ============ */
+  .manifesto-strip {
+    background: var(--red);
+    color: var(--white);
+    padding: 1rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+  }
+
+  .manifesto-strip span {
+    display: inline-block;
+    animation: scroll 20s linear infinite;
+  }
+
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 600px) {
+    .gender-options, .quiz-options {
+      flex-direction: column;
+      width: 100%;
+    }
+    .gender-btn, .quiz-option {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- CART NOTIFICATION -->
+<div class="cart-notification" id="cartNotif">Added to cart. Patriarchy, crying. 🔥</div>
+
+<!-- ============ INTRO SCREEN ============ -->
+<div class="screen active" id="intro">
+  <div class="noise-bg"></div>
+  <h1 class="brand-title">ABHLA<br><span>MARD</span></h1>
+  <p class="tagline">Calling out entitled men. <span class="red-text">Smashing patriarchy.</span></p>
+  <button class="cta-btn" onclick="goToScreen('gender-select')">Take The Test →</button>
+  <p class="scroll-hint">5 questions. Zero filters. All truth.</p>
+</div>
+
+<!-- ============ GENDER SELECT ============ -->
+<div class="screen" id="gender-select">
+  <p class="question-label">Step 1 of 2</p>
+  <h2 class="big-question">First — who are we dealing with here?</h2>
+  <div class="gender-options">
+    <button class="gender-btn" onclick="selectGender('man')">A Man</button>
+    <button class="gender-btn" onclick="selectGender('woman')">A Woman</button>
+    <button class="gender-btn" onclick="selectGender('trans')">Trans / Non-Binary</button>
+  </div>
+</div>
+
+<!-- ============ QUIZ SCREEN ============ -->
+<div class="screen" id="quiz">
+  <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+  <p class="quiz-counter" id="quizCounter">QUESTION 1 OF 5</p>
+  <h2 class="quiz-question" id="quizQuestion">Question goes here</h2>
+  <div class="quiz-options" id="quizOptions"></div>
+</div>
+
+<!-- ============ RESULTS SCREEN ============ -->
+<div class="screen" id="results">
+  <div class="results-header">
+    <h2 class="results-title" id="resultsTitle">Your Results</h2>
+    <p class="results-subtitle" id="resultsSubtitle">Based on your answers...</p>
+    <div class="score-badge" id="scoreBadge"></div>
+  </div>
+
+  <div class="manifesto-strip">
+    <span id="manifestoText">PERIODS ARE NOT A CURSE • COOKING IS NOT GENDERED • CONSENT IS NOT OPTIONAL • RESPECT IS NOT A FAVOR • PERIODS ARE NOT A CURSE • COOKING IS NOT GENDERED • CONSENT IS NOT OPTIONAL • RESPECT IS NOT A FAVOR •</span>
+  </div>
+
+  <div class="products-section">
+    <p class="section-label">RECOMMENDED FOR YOU</p>
+    <div class="products-grid" id="productsGrid"></div>
+
+    <div class="view-all-container">
+      <button class="retake-btn" onclick="goToScreen('intro'); resetQuiz();">Retake The Test</button>
+      <button class="retake-btn" onclick="showAllProducts()">Shop Full Collection</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===================== DATA =====================
+  const questionSets = {
+    man: [
+      {
+        q: "Do you know how to switch on a stove without calling for help?",
+        options: [
+          { text: "Yes, I'm basically a chef", problematic: false },
+          { text: "What's a stove?", problematic: true }
+        ]
+      },
+      {
+        q: "Can you cook yourself a full meal without texting 'mom what do I eat'?",
+        options: [
+          { text: "Obviously, I'm an adult", problematic: false },
+          { text: "I'd genuinely starve", problematic: true }
+        ]
+      },
+      {
+        q: "Do you actually understand what a period is, biologically?",
+        options: [
+          { text: "Yes, basic human biology", problematic: false },
+          { text: "Something... to do with blood?", problematic: true }
+        ]
+      },
+      {
+        q: "When she's on her period and in pain, your first move is:",
+        options: [
+          { text: "Get her what she needs, be kind", problematic: false },
+          { text: "Tell her to 'calm down' or avoid her", problematic: true }
+        ]
+      },
+      {
+        q: "Have you ever said (or thought) 'women belong in the kitchen'?",
+        options: [
+          { text: "Never. That's gross.", problematic: false },
+          { text: "Maybe once... or twice... or more", problematic: true }
+        ]
+      }
+    ],
+    woman: [
+      {
+        q: "Have you ever had to feed a full-grown man like he's a toddler?",
+        options: [
+          { text: "Unfortunately, yes", problematic: true },
+          { text: "No, thank god", problematic: false }
+        ]
+      },
+      {
+        q: "Has a man ever 'allowed' or 'permitted' you to study or work?",
+        options: [
+          { text: "Yes, like I needed his approval", problematic: true },
+          { text: "No, I do what I want", problematic: false }
+        ]
+      },
+      {
+        q: "Told to 'adjust' or 'compromise' for family peace while he does nothing?",
+        options: [
+          { text: "Constantly", problematic: true },
+          { text: "Not really", problematic: false }
+        ]
+      },
+      {
+        q: "Asked 'why aren't you married yet' more times than you can count?",
+        options: [
+          { text: "It's basically a greeting at this point", problematic: true },
+          { text: "No one's asked", problematic: false }
+        ]
+      },
+      {
+        q: "Blamed for a man's bad behavior because of your clothes or actions?",
+        options: [
+          { text: "Yes, every time", problematic: true },
+          { text: "No, never experienced it", problematic: false }
+        ]
+      }
+    ],
+    trans: [
+      {
+        q: "Have you faced slurs or hateful words because of who you are?",
+        options: [
+          { text: "Yes, more times than I can count", problematic: true },
+          { text: "No, I've been lucky", problematic: false }
+        ]
+      },
+      {
+        q: "Been denied basic respect, rights, or access because of your identity?",
+        options: [
+          { text: "Yes, constantly", problematic: true },
+          { text: "No, not really", problematic: false }
+        ]
+      },
+      {
+        q: "Had to explain or justify your identity to ignorant people?",
+        options: [
+          { text: "All the time. Exhausting.", problematic: true },
+          { text: "Rarely", problematic: false }
+        ]
+      },
+      {
+        q: "Faced threats, violence, or unsafe situations for being yourself?",
+        options: [
+          { text: "Yes, unfortunately", problematic: true },
+          { text: "No, thankfully not", problematic: false }
+        ]
+      },
+      {
+        q: "Been intentionally misgendered to disrespect or hurt you?",
+        options: [
+          { text: "Yes, deliberately", problematic: true },
+          { text: "No", problematic: false }
+        ]
+      }
+    ]
+  };
+
+  const productCatalog = {
+    man: [
+      { name: "Certified Kitchen Illiterate", tag: "For the stove-phobic", price: "₹799", trigger: 0 },
+      { name: "Survival Mode: Mom Not Included", tag: "Learn to cook, bestie", price: "₹849", trigger: 1 },
+      { name: "Period? Never Heard Of Her", tag: "Basic biology 101", price: "₹799", trigger: 2 },
+      { name: "Fragile: Handle With Therapy", tag: "For the emotionally unavailable", price: "₹899", trigger: 3 },
+      { name: "Default Setting: Entitled", tag: "Factory reset recommended", price: "₹799", trigger: 4 }
+    ],
+    woman: [
+      { name: "Not Your Baby's Mama (He's 35)", tag: "He can feed himself", price: "₹799", trigger: 0 },
+      { name: "Permission? I Don't Do That", tag: "My life, my rules", price: "₹849", trigger: 1 },
+      { name: "Adjusted Enough For 10 Lifetimes", tag: "Retired from compromising", price: "₹799", trigger: 2 },
+      { name: "Married To My Peace", tag: "No ring required", price: "₹899", trigger: 3 },
+      { name: "My Clothes Are Not Your Excuse", tag: "Accountability starts with you", price: "₹799", trigger: 4 }
+    ],
+    trans: [
+      { name: "Still Here. Still Fabulous.", tag: "Unbothered by hate", price: "₹849", trigger: 0 },
+      { name: "My Identity Isn't Up For Debate", tag: "Not a discussion topic", price: "₹799", trigger: 1 },
+      { name: "Education > Your Ignorance", tag: "Do better", price: "₹849", trigger: 2 },
+      { name: "Unbothered & Unbroken", tag: "Still standing, still thriving", price: "₹899", trigger: 3 },
+      { name: "Correct My Pronouns, Not My Existence", tag: "It's not that hard", price: "₹799", trigger: 4 }
+    ]
+  };
+
+  const resultsCopy = {
+    man: {
+      high: { title: "Oh no. We need to talk.", subtitle: "Your answers suggest you might be part of the problem. Good news: there's merch for self-awareness. Bad news: you need it." },
+      low: { title: "Okay, not entirely hopeless.", subtitle: "You passed the bare minimum test. Here's some merch to remind yourself (and others) that decency is possible." }
+    },
+    woman: {
+      high: { title: "We see you. We stand with you.", subtitle: "Every answer here is a story millions of women share. This merch is your armor — wear it loud." },
+      low: { title: "Lucky you (sort of).", subtitle: "You've dodged some bullets, but the fight isn't over. Here's merch for solidarity with those who haven't." }
+    },
+    trans: {
+      high: { title: "Your resilience is the real flex.", subtitle: "You've faced what no one should. This collection is for your strength, your identity, your unapologetic existence." },
+      low: { title: "Glad it's been easier for you.", subtitle: "Not everyone's as fortunate. Wear this to stand with those still fighting for basic respect." }
+    }
+  };
+
+  // ===================== STATE =====================
+  let currentGender = '';
+  let currentQIndex = 0;
+  let answers = [];
+
+  // ===================== NAVIGATION =====================
+  function goToScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function resetQuiz() {
+    currentGender = '';
+    currentQIndex = 0;
+    answers = [];
+  }
+
+  function selectGender(gender) {
+    currentGender = gender;
+    currentQIndex = 0;
+    answers = [];
+    goToScreen('quiz');
+    renderQuestion();
+  }
+
+  // ===================== QUIZ LOGIC =====================
+  function renderQuestion() {
+    const questions = questionSets[currentGender];
+    const q = questions[currentQIndex];
+
+    document.getElementById('quizCounter').textContent = `QUESTION ${currentQIndex + 1} OF ${questions.length}`;
+    document.getElementById('quizQuestion').textContent = q.q;
+
+    const progress = ((currentQIndex) / questions.length) * 100;
+    document.getElementById('progressBar').style.width = progress + '%';
+
+    const optionsContainer = document.getElementById('quizOptions');
+    optionsContainer.innerHTML = '';
+
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'quiz-option' + (opt.problematic ? ' problematic' : '');
+      btn.textContent = opt.text;
+      btn.onclick = () => selectAnswer(opt.problematic);
+      optionsContainer.appendChild(btn);
+    });
+  }
+
+  function selectAnswer(isProblematic) {
+    answers.push(isProblematic);
+    currentQIndex++;
+
+    const questions = questionSets[currentGender];
+    if (currentQIndex < questions.length) {
+      renderQuestion();
+    } else {
+      document.getElementById('progressBar').style.width = '100%';
+      setTimeout(() => showResults(), 300);
+    }
+  }
+
+  // ===================== RESULTS =====================
+  function showResults() {
+    const problematicCount = answers.filter(a => a === true).length;
+    const isHighScore = problematicCount >= 3;
+    const copy = resultsCopy[currentGender][isHighScore ? 'high' : 'low'];
+
+    document.getElementById('resultsTitle').textContent = copy.title;
+    document.getElementById('resultsSubtitle').textContent = copy.subtitle;
+    document.getElementById('scoreBadge').textContent = 
+      `${problematicCount}/${answers.length} FLAGS RAISED`;
+
+    renderProducts(problematicCount);
+    goToScreen('results');
+  }
+
+  function renderProducts(problematicCount) {
+    const catalog = productCatalog[currentGender];
+    const grid = document.getElementById('productsGrid');
+    grid.innerHTML = '';
+
+    // Filter: show products that correspond to "triggered" (problematic) answers
+    // If few problematic answers, show full positive/solidarity range instead
+    let productsToShow = [];
+
+    answers.forEach((isProblematic, idx) => {
+      if (isProblematic) {
+        productsToShow.push(catalog[idx]);
+      }
+    });
+
+    // If no problematic answers (all good), show full collection as "ally pack"
+    if (productsToShow.length === 0) {
+      productsToShow = catalog;
+    }
+
+    productsToShow.forEach(product => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <div class="product-image">
+          <div class="product-mockup">${product.name}</div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">${product.name}</div>
+          <div class="product-tag">${product.tag}</div>
+          <div class="product-footer">
+            <span class="product-price">${product.price}</span>
+            <button class="add-btn" onclick="addToCart(event)">Add to Cart</button>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function showAllProducts() {
+    const allProducts = [
+      ...productCatalog.man,
+      ...productCatalog.woman,
+      ...productCatalog.trans
+    ];
+    const grid = document.getElementById('productsGrid');
+    grid.innerHTML = '';
+    document.querySelector('.section-label').textContent = 'FULL COLLECTION';
+
+    allProducts.forEach(product => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <div class="product-image">
+          <div class="product-mockup">${product.name}</div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">${product.name}</div>
+          <div class="product-tag">${product.tag}</div>
+          <div class="product-footer">
+            <span class="product-price">${product.price}</span>
+            <button class="add-btn" onclick="addToCart(event)">Add to Cart</button>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    window.scrollTo({ top: document.querySelector('.products-section').offsetTop, behavior: 'smooth' });
+  }
+
+  // ===================== CART =====================
+  function addToCart(e) {
+    e.stopPropagation();
+    const notif = document.getElementById('cartNotif');
+    notif.classList.add('show');
+    setTimeout(() => notif.classList.remove('show'), 2500);
+  }
+</script>
+
+</body>
+</html>
