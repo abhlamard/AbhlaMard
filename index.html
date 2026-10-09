@@ -214,6 +214,7 @@
 </div>
 
 <!-- ============ APP SHELL ============ -->
+ 
 <div id="appShell">
   <header class="main-nav">
     <img src="assets/logo.png" class="nav-logo" onclick="showPage('home')" alt="Abhla Mard">
@@ -477,7 +478,7 @@
   <footer class="site-footer">
     <p>© 2026 Abhla Mard. All rights reserved (and so is our sarcasm).</p>
     <p style="margin-top:.5rem;">
-      <a onclick="showPage('about')">About</a> · <a onclick="showPage('careers')">Careers</a> · <a onclick="showPage('contact')">Contact</a> · <a onclick="showPage('admin')">Admin</a>
+      <a onclick="showPage('about')">About</a> · <a onclick="showPage('careers')">Careers</a> · <a onclick="showPage('contact')">Contact</a> 
     </p>
   </footer>
 </div>
@@ -497,6 +498,20 @@
       <button class="cta-btn" style="width:100%; margin-top:1rem;" onclick="verifyOtp()">Verify & Continue</button>
       <a class="ghost-link" onclick="sendOtp()">Resend OTP</a>
     </div>
+  </div>
+</div>
+
+<!-- ============ ADMIN GATE MODAL ============ -->
+<div class="modal-overlay" id="adminGateModal">
+  <div class="modal-box">
+    <h3 style="margin-bottom:1.5rem;">Restricted Area</h3>
+    <p style="opacity:.7; font-size:.85rem; margin-bottom:1.5rem;">This section is for site admins only.</p>
+    <div class="form-group">
+      <label>Admin Password</label>
+      <input type="password" id="adminPassInput" placeholder="Enter password" onkeydown="if(event.key==='Enter') verifyAdminPassword()">
+    </div>
+    <button class="cta-btn" style="width:100%;" onclick="verifyAdminPassword()">Unlock</button>
+    <a class="ghost-link" onclick="window.location.href='/'">← Back to site</a>
   </div>
 </div>
 
@@ -655,6 +670,14 @@ function enterStore(startPage){
   showPage(startPage);
 }
 function showPage(id){
+    // 🔒 Block admin page unless unlocked via /admin or #admin route
+  if(id === 'admin' && sessionStorage.getItem('am_admin_unlocked') !== 'true'){
+    id = 'home';
+  }
+
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  currentPage = id;
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   currentPage = id;
@@ -1079,8 +1102,39 @@ function exportContactCSV(){
   downloadCSV('abhla_mard_contact_messages.csv', header, rows);
 }
 
+/* ===================== ADMIN ROUTE PROTECTION ===================== */
+const ADMIN_PASSWORD = 'dosuttaekchaimardjaathaayhaay'; // 🔒 change this to your own secret password
+
+function checkAdminRoute(){
+  const path = window.location.pathname.toLowerCase();
+  const hash = window.location.hash.toLowerCase();
+  const isAdminRoute = path.endsWith('/admin') || path.endsWith('/admin/') || hash === '#admin' || hash === '#/admin';
+
+  if(isAdminRoute){
+    // Hide intro/quiz screens — go straight to gate
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    if(sessionStorage.getItem('am_admin_unlocked') === 'true'){
+      enterStore('admin');
+    } else {
+      document.getElementById('adminGateModal').classList.add('active');
+    }
+  }
+}
+
+function verifyAdminPassword(){
+  const entered = document.getElementById('adminPassInput').value;
+  if(entered === ADMIN_PASSWORD){
+    sessionStorage.setItem('am_admin_unlocked', 'true');
+    document.getElementById('adminGateModal').classList.remove('active');
+    enterStore('admin');
+  } else {
+    alert('Incorrect password.');
+  }
+}
+
 /* ===================== INIT ===================== */
 updateCounts();
+checkAdminRoute();
 </script>
 </body>
 </html>
