@@ -1,724 +1,1590 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ABHLA MARD — Smashing Patriarchy, One Tee At A Time</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABHLA MARD — Smashing Patriarchy, One Tee At A Time</title>
 
-<link rel="icon" type="image/png" href="assets/favicon.png">
-<meta property="og:title" content="Abhla Mard">
-<meta property="og:description" content="Calling out entitled men. Smashing patriarchy.">
-<meta property="og:image" content="assets/thumbnail.png">
+  <link rel="icon" type="image/jpeg" href="assets/favicon.jpeg">
+  <meta property="og:title" content="Abhla Mard">
+  <meta property="og:description" content="Calling out entitled men. Smashing patriarchy.">
+  <meta property="og:image" content="assets/thumbnail.png">
 
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --black: #1c1c1c;       /* was pure black, now dark grey */
-    --dark-grey: #262626;   /* panels — slightly lighter than --black */
-    --grey: #3c3c3c;        /* borders */
-    --light-grey: #999;
-    --white: #fafafa;
-    --red: #e8303a;
-    --red-dark: #c41e28;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: 'Space Grotesk', sans-serif;
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --black: #1c1c1c;
+      /* was pure black, now dark grey */
+      --dark-grey: #262626;
+      /* panels — slightly lighter than --black */
+      --grey: #3c3c3c;
+      /* borders */
+      --light-grey: #999;
+      --white: #fafafa;
+      --red: #e8303a;
+      --red-dark: #c41e28;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    .heading {
+      font-family: 'Archivo Black', sans-serif;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+    }
+
+    /* ========== FULL SCREEN STEPS (Intro/Quiz ONLY) ========== */
+    .screen {
+      min-height: 100vh;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      text-align: center;
+    }
+
+    .screen.active {
+      display: flex;
+      animation: fadeIn .5s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #intro {
+      background: var(--black);
+    }
+
+    .noise-bg {
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, .02) 2px, rgba(255, 255, 255, .02) 4px);
+      pointer-events: none;
+    }
+
+    .brand-logo-intro {
+      max-width: 320px;
+      width: 60vw;
+      margin-bottom: 1.5rem;
+      filter: drop-shadow(0 0 25px rgba(232, 48, 58, .4));
+    }
+
+    .tagline {
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      opacity: .85;
+      margin-bottom: 2.5rem;
+      font-weight: 500;
+      letter-spacing: .05em;
+    }
+
+    .tagline .red-text {
+      color: var(--red);
+      font-weight: 700;
+    }
+
+    .cta-btn {
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      padding: 1.1rem 2.8rem;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      transition: .3s;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--white);
+      transition: .3s;
+      z-index: -1;
+    }
+
+    .cta-btn:hover::before {
+      left: 0;
+    }
+
+    .cta-btn:hover {
+      color: var(--black);
+    }
+
+    .ghost-link {
+      display: block;
+      margin-top: 1.3rem;
+      font-size: .85rem;
+      opacity: .6;
+      text-decoration: underline;
+    }
+
+    .ghost-link:hover {
+      opacity: 1;
+      color: var(--red);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 1.5rem;
+      font-size: .8rem;
+      opacity: .5;
+      letter-spacing: .1em;
+    }
+
+    .question-label {
+      font-size: .85rem;
+      color: var(--red);
+      letter-spacing: .2em;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    .big-question {
+      font-size: clamp(1.6rem, 5vw, 2.8rem);
+      margin-bottom: 2.5rem;
+      max-width: 800px;
+    }
+
+    .gender-options,
+    .quiz-options {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 700px;
+    }
+
+    .gender-btn {
+      background: var(--dark-grey);
+      border: 2px solid var(--grey);
+      color: var(--white);
+      padding: 1.8rem 2.2rem;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      transition: .3s;
+      min-width: 170px;
+    }
+
+    .gender-btn:hover {
+      border-color: var(--red);
+      background: var(--red);
+      transform: translateY(-5px);
+    }
+
+    #quiz {
+      position: relative;
+    }
+
+    .progress-track {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--grey);
+    }
+
+    .progress-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: var(--red);
+      transition: width .4s ease;
+    }
+
+    .quiz-counter {
+      font-size: .8rem;
+      color: var(--red);
+      letter-spacing: .2em;
+      margin-bottom: 1.3rem;
+    }
+
+    .quiz-question {
+      font-size: clamp(1.4rem, 4vw, 2.3rem);
+      max-width: 780px;
+      margin-bottom: 2.5rem;
+    }
+
+    .quiz-option {
+      background: transparent;
+      border: 2px solid var(--white);
+      color: var(--white);
+      padding: 1.1rem 1.8rem;
+      font-weight: 700;
+      font-size: .95rem;
+      transition: .3s;
+      min-width: 200px;
+    }
+
+    .quiz-option:hover {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .quiz-option.problematic {
+      border-color: var(--red);
+    }
+
+    .quiz-option.problematic:hover {
+      background: var(--red);
+      border-color: var(--red);
+      color: var(--white);
+    }
+
+    /* ========== TOAST ========== */
+    .toast {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: var(--red);
+      color: var(--white);
+      padding: 1rem 1.8rem;
+      font-weight: 700;
+      transform: translateX(150%);
+      transition: transform .4s ease;
+      z-index: 2000;
+      max-width: 280px;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
+    /* ========== APP SHELL ========== */
+    #appShell {
+      display: none;
+    }
+  /* ========== NAV (responsive) ========== */
+  .main-nav {
+    position: sticky; top: 0; z-index: 500;
     background: var(--black);
-    color: var(--white);
-    overflow-x: hidden;
+    border-bottom: 2px solid var(--grey);
+    display: flex; align-items: center;
+    padding: .8rem 1.5rem;
+    gap: 1rem;
   }
-  h1,h2,h3,.heading { font-family: 'Archivo Black', sans-serif; text-transform: uppercase; line-height: 1; }
-  a { color: inherit; text-decoration: none; cursor: pointer; }
-  button { font-family: inherit; cursor: pointer; }
-  input, select, textarea { font-family: inherit; }
+  .nav-left { display: flex; align-items: center; gap: 1.2rem; }
+  .nav-center { flex: 1; display: flex; justify-content: center; }
+  .nav-right { display: flex; align-items: center; gap: .8rem; }
 
-  /* ========== FULL SCREEN STEPS (Intro/Quiz ONLY) ========== */
-  .screen { min-height: 100vh; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; position: relative; text-align:center; }
-  .screen.active { display: flex; animation: fadeIn .5s ease; }
-  @keyframes fadeIn { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
+  .nav-logo { height: 42px; cursor: pointer; }
 
-  #intro { background: var(--black); }
-  .noise-bg { position:absolute; inset:0; background-image:repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,.02) 2px, rgba(255,255,255,.02) 4px); pointer-events:none; }
-  .brand-logo-intro { max-width: 320px; width: 60vw; margin-bottom: 1.5rem; filter: drop-shadow(0 0 25px rgba(232,48,58,.4)); }
-  .tagline { font-size: clamp(1rem,3vw,1.5rem); opacity:.85; margin-bottom: 2.5rem; font-weight:500; letter-spacing:.05em; }
-  .tagline .red-text { color: var(--red); font-weight:700; }
-  .cta-btn { background: var(--red); color: var(--white); border:none; padding: 1.1rem 2.8rem; font-family:'Archivo Black',sans-serif; font-size:1rem; text-transform:uppercase; letter-spacing:.05em; transition:.3s; position:relative; overflow:hidden; z-index:1; }
-  .cta-btn::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:var(--white); transition:.3s; z-index:-1; }
-  .cta-btn:hover::before { left:0; }
-  .cta-btn:hover { color: var(--black); }
-  .ghost-link { display:block; margin-top:1.3rem; font-size:.85rem; opacity:.6; text-decoration:underline; }
-  .ghost-link:hover { opacity:1; color:var(--red); }
-  .scroll-hint { position:absolute; bottom:1.5rem; font-size:.8rem; opacity:.5; letter-spacing:.1em; }
-
-  .question-label { font-size:.85rem; color:var(--red); letter-spacing:.2em; margin-bottom:1rem; text-transform:uppercase; }
-  .big-question { font-size:clamp(1.6rem,5vw,2.8rem); margin-bottom:2.5rem; max-width:800px; }
-  .gender-options, .quiz-options { display:flex; gap:1.2rem; flex-wrap:wrap; justify-content:center; max-width:700px; }
-  .gender-btn { background:var(--dark-grey); border:2px solid var(--grey); color:var(--white); padding:1.8rem 2.2rem; font-family:'Archivo Black',sans-serif; font-size:1.1rem; text-transform:uppercase; transition:.3s; min-width:170px; }
-  .gender-btn:hover { border-color:var(--red); background:var(--red); transform:translateY(-5px); }
-
-  #quiz { position:relative; }
-  .progress-track { position:absolute; top:0; left:0; right:0; height:4px; background:var(--grey); }
-  .progress-bar { position:absolute; top:0; left:0; height:4px; background:var(--red); transition:width .4s ease; }
-  .quiz-counter { font-size:.8rem; color:var(--red); letter-spacing:.2em; margin-bottom:1.3rem; }
-  .quiz-question { font-size:clamp(1.4rem,4vw,2.3rem); max-width:780px; margin-bottom:2.5rem; }
-  .quiz-option { background:transparent; border:2px solid var(--white); color:var(--white); padding:1.1rem 1.8rem; font-weight:700; font-size:.95rem; transition:.3s; min-width:200px; }
-  .quiz-option:hover { background:var(--white); color:var(--black); }
-  .quiz-option.problematic { border-color:var(--red); }
-  .quiz-option.problematic:hover { background:var(--red); border-color:var(--red); color:var(--white); }
-
-  /* ========== TOAST ========== */
-  .toast { position:fixed; top:1.5rem; right:1.5rem; background:var(--red); color:var(--white); padding:1rem 1.8rem; font-weight:700; transform:translateX(150%); transition:transform .4s ease; z-index:2000; max-width:280px; }
-  .toast.show { transform:translateX(0); }
-
-  /* ========== APP SHELL ========== */
-  #appShell { display:none; }
-  .main-nav { position:sticky; top:0; z-index:500; background:var(--black); border-bottom:2px solid var(--grey); display:flex; align-items:center; gap:1.2rem; padding:.8rem 1.5rem; flex-wrap:wrap; }
-  .nav-logo { height:42px; cursor:pointer; }
-  .nav-links { display:flex; gap:1.3rem; flex:1; flex-wrap:wrap; }
-  .nav-links a { font-weight:700; font-size:.88rem; text-transform:uppercase; letter-spacing:.03em; opacity:.8; padding:.3rem 0; border-bottom:2px solid transparent; }
-  .nav-links a:hover, .nav-links a.active { opacity:1; color:var(--red); border-color:var(--red); }
-  .nav-search { position:relative; }
-  .nav-search input { background:var(--dark-grey); border:1px solid var(--grey); color:var(--white); padding:.55rem 1rem; width:200px; font-size:.85rem; }
-  .nav-search input:focus { outline:none; border-color:var(--red); }
-  .nav-icons { display:flex; gap:.8rem; align-items:center; }
-  .icon-btn { background:transparent; border:1px solid var(--grey); color:var(--white); width:40px; height:40px; border-radius:50%; position:relative; font-size:1.1rem; display:flex; align-items:center; justify-content:center; transition:.3s; }
-  .icon-btn:hover { border-color:var(--red); color:var(--red); }
-  .badge { position:absolute; top:-6px; right:-6px; background:var(--red); color:var(--white); font-size:.65rem; font-weight:700; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
-
-  .page { display:none; min-height:70vh; }
-  .page.active { display:block; animation:fadeIn .4s ease; }
-  .page-inner { padding:2.5rem 1.5rem; max-width:1200px; margin:0 auto; }
-
-  #page-results { padding:0; }
-  .results-header { text-align:center; padding:3.5rem 1.5rem 2rem; border-bottom:3px solid var(--red); }
-  .results-title { font-size:clamp(1.8rem,6vw,3.2rem); margin-bottom:1rem; }
-  .results-subtitle { font-size:1.05rem; opacity:.8; max-width:700px; margin:0 auto; line-height:1.5; }
-  .score-badge { display:inline-block; background:var(--red); padding:.5rem 1.4rem; font-family:'Archivo Black',sans-serif; margin-top:1.3rem; letter-spacing:.05em; }
-  .manifesto-strip { background:var(--red); padding:.9rem 0; overflow:hidden; white-space:nowrap; font-family:'Archivo Black',sans-serif; font-size:.95rem; letter-spacing:.05em; }
-  .manifesto-strip span { display:inline-block; animation:scroll 20s linear infinite; }
-  @keyframes scroll { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
-  .results-actions { text-align:center; padding:0 1.5rem 3rem; display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
-
-  .hero { text-align:center; padding:3rem 1rem 4rem; border-bottom:2px solid var(--grey); margin-bottom:3rem; }
-  .hero img { max-width:220px; margin-bottom:1rem; }
-  .hero h2 { font-size:clamp(1.8rem,5vw,3rem); margin-bottom:1rem; }
-  .hero p { opacity:.8; max-width:600px; margin:0 auto 2rem; }
-  .hero-ctas { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
-  .btn-outline { background:transparent; border:2px solid var(--white); color:var(--white); padding:1rem 2rem; font-family:'Archivo Black',sans-serif; text-transform:uppercase; transition:.3s; }
-  .btn-outline:hover { background:var(--white); color:var(--black); }
-
-  .section-label { font-size:.85rem; color:var(--red); letter-spacing:.2em; text-align:center; margin-bottom:1.8rem; text-transform:uppercase; }
-
-  .cat-tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1.2rem; margin:3rem 0; }
-  .cat-tile { background:var(--dark-grey); border:2px solid var(--grey); padding:2.5rem 1.5rem; text-align:center; font-family:'Archivo Black',sans-serif; text-transform:uppercase; transition:.3s; cursor:pointer; }
-  .cat-tile:hover { border-color:var(--red); background:var(--red); }
-
-  .filter-bar { display:flex; gap:.8rem; flex-wrap:wrap; justify-content:center; margin-bottom:2.5rem; }
-  .filter-tab { background:transparent; border:2px solid var(--grey); color:var(--white); padding:.6rem 1.4rem; font-weight:700; font-size:.85rem; text-transform:uppercase; transition:.3s; }
-  .filter-tab:hover, .filter-tab.active { border-color:var(--red); background:var(--red); }
-
-  .products-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.8rem; }
-  .product-card { background:var(--dark-grey); border:2px solid var(--grey); overflow:hidden; transition:.3s; position:relative; }
-  .product-card:hover { border-color:var(--red); transform:translateY(-6px); }
-  .wish-btn { position:absolute; top:10px; left:10px; background:rgba(0,0,0,.6); border:none; color:var(--white); width:34px; height:34px; border-radius:50%; font-size:1.1rem; z-index:2; }
-  .wish-btn.active { color:var(--red); }
-  .product-image { width:100%; aspect-ratio:1; background:var(--grey); display:flex; align-items:center; justify-content:center; position:relative; }
-  .product-image::before { content:attr(data-cat); font-family:'Archivo Black',sans-serif; font-size:.7rem; position:absolute; top:10px; right:10px; background:var(--red); padding:3px 8px; letter-spacing:.08em; text-transform:uppercase; }
-  .product-mockup { width:75%; text-align:center; font-family:'Archivo Black',sans-serif; font-size:1.05rem; line-height:1.3; text-transform:uppercase; }
-  .product-info { padding:1.3rem; }
-  .product-name { font-family:'Archivo Black',sans-serif; font-size:.95rem; margin-bottom:.4rem; text-transform:uppercase; }
-  .product-tag { font-size:.82rem; color:var(--red); margin-bottom:1rem; }
-  .product-footer { display:flex; justify-content:space-between; align-items:center; }
-  .product-price { font-family:'Archivo Black',sans-serif; font-size:1.1rem; }
-  .add-btn { background:var(--red); color:var(--white); border:none; padding:.55rem 1.1rem; font-weight:700; font-size:.8rem; text-transform:uppercase; transition:.3s; }
-  .add-btn:hover { background:var(--white); color:var(--black); }
-  .empty-state { text-align:center; padding:4rem 1rem; opacity:.6; }
-
-  .cart-row { display:flex; align-items:center; gap:1.2rem; padding:1.2rem 0; border-bottom:1px solid var(--grey); flex-wrap:wrap; }
-  .cart-row .thumb { width:70px; height:70px; background:var(--grey); display:flex; align-items:center; justify-content:center; font-size:.6rem; font-family:'Archivo Black',sans-serif; text-align:center; padding:4px; flex-shrink:0; }
-  .cart-row .info { flex:1; min-width:150px; }
-  .qty-control { display:flex; align-items:center; gap:.6rem; }
-  .qty-control button { background:var(--grey); border:none; color:var(--white); width:30px; height:30px; font-size:1.1rem; }
-  .remove-link { color:var(--red); font-size:.8rem; text-decoration:underline; }
-  .cart-summary { margin-top:2rem; padding-top:1.5rem; border-top:2px solid var(--red); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
-  .cart-total { font-family:'Archivo Black',sans-serif; font-size:1.5rem; }
-
-  .form-group { margin-bottom:1.2rem; text-align:left; }
-  .form-group label { display:block; font-size:.8rem; opacity:.7; margin-bottom:.4rem; text-transform:uppercase; letter-spacing:.05em; }
-  .form-group input, .form-group select { width:100%; background:var(--dark-grey); border:1px solid var(--grey); color:var(--white); padding:.8rem 1rem; font-size:.95rem; }
-  .form-group input:focus, .form-group select:focus { outline:none; border-color:var(--red); }
-  .checkout-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:2.5rem; }
-  .order-summary-box { background:var(--dark-grey); border:2px solid var(--grey); padding:1.5rem; align-self:start; }
-  .summary-row { display:flex; justify-content:space-between; font-size:.9rem; padding:.5rem 0; border-bottom:1px solid var(--grey); }
-  .pay-options { display:flex; flex-direction:column; gap:.7rem; margin:1rem 0 1.5rem; }
-  .pay-options label { display:flex; align-items:center; gap:.6rem; background:var(--dark-grey); border:1px solid var(--grey); padding:.8rem 1rem; cursor:pointer; }
-  .pay-options input { width:auto; }
-
-  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.8); z-index:3000; align-items:center; justify-content:center; padding:1rem; }
-  .modal-overlay.active { display:flex; }
-  .modal-box { background:var(--dark-grey); border:2px solid var(--red); padding:2.5rem; max-width:400px; width:100%; text-align:center; position:relative; }
-  .modal-close { position:absolute; top:10px; right:14px; background:none; border:none; color:var(--white); font-size:1.4rem; }
-  .otp-hint { font-size:.8rem; color:var(--red); margin-top:.8rem; background:rgba(232,48,58,.1); padding:.6rem; border:1px dashed var(--red); }
-
-  .order-card { background:var(--dark-grey); border:2px solid var(--grey); padding:1.3rem; margin-bottom:1rem; }
-  .order-card .oc-head { display:flex; justify-content:space-between; font-family:'Archivo Black',sans-serif; margin-bottom:.6rem; flex-wrap:wrap; gap:.5rem; }
-  table.admin-table { width:100%; border-collapse:collapse; font-size:.82rem; margin-top:1.5rem; }
-  table.admin-table th, table.admin-table td { border:1px solid var(--grey); padding:.6rem; text-align:left; }
-  table.admin-table th { background:var(--dark-grey); text-transform:uppercase; font-size:.75rem; }
-
-  footer.site-footer { border-top:2px solid var(--grey); padding:2.5rem 1.5rem; text-align:center; opacity:.7; font-size:.85rem; }
-  footer.site-footer a { text-decoration:underline; margin:0 .5rem; }
-
-  @media (max-width:850px){ .checkout-grid{ grid-template-columns:1fr; } }
-  @media (max-width:600px){
-    .gender-options, .quiz-options { flex-direction:column; width:100%; }
-    .gender-btn, .quiz-option { width:100%; }
-    .main-nav { flex-direction:column; align-items:stretch; }
-    .nav-search input { width:100%; }
+  .hamburger-btn {
+    display: none;
+    background: transparent; border: 1px solid var(--grey); color: var(--white);
+    width: 40px; height: 40px; border-radius: 50%;
+    font-size: 1.3rem; align-items: center; justify-content: center;
+    transition: .3s;
   }
-</style>
+  .hamburger-btn:hover { border-color: var(--red); color: var(--red); }
+
+  .nav-links { display: flex; gap: 1.3rem; }
+  .nav-links a { font-weight: 700; font-size: .88rem; text-transform: uppercase; letter-spacing: .03em; opacity: .8; padding: .3rem 0; border-bottom: 2px solid transparent; }
+  .nav-links a:hover, .nav-links a.active { opacity: 1; color: var(--red); border-color: var(--red); }
+
+  .nav-search input.search-input { background: var(--dark-grey); border: 1px solid var(--grey); color: var(--white); padding: .55rem 1rem; width: 200px; font-size: .85rem; }
+  .nav-search input.search-input:focus { outline: none; border-color: var(--red); }
+
+  .nav-icons { display: flex; gap: .7rem; align-items: center; }
+  .icon-btn { background: transparent; border: 1px solid var(--grey); color: var(--white); width: 40px; height: 40px; border-radius: 50%; position: relative; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; transition: .3s; }
+  .icon-btn:hover { border-color: var(--red); color: var(--red); }
+  .badge { position: absolute; top: -6px; right: -6px; background: var(--red); color: var(--white); font-size: .65rem; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+  /* ===== Mobile slide-in menu ===== */
+  .mobile-menu-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.7);
+    z-index: 1500;
+  }
+  .mobile-menu-overlay.active { display: block; }
+  .mobile-menu-panel {
+    position: fixed; top: 0; left: 0; bottom: 0;
+    width: 280px; max-width: 82vw;
+    background: var(--dark-grey);
+    border-right: 2px solid var(--red);
+    padding: 2rem 1.5rem;
+    transform: translateX(-100%);
+    transition: transform .3s ease;
+    overflow-y: auto;
+  }
+  .mobile-menu-overlay.active .mobile-menu-panel { transform: translateX(0); }
+  .mobile-menu-close {
+    background: none; border: none; color: var(--white);
+    font-size: 1.8rem; position: absolute; top: 1rem; right: 1.2rem;
+  }
+  .mobile-search { margin-top: 2.5rem; margin-bottom: 2rem; }
+  .mobile-search input.search-input { width: 100%; background: var(--black); border: 1px solid var(--grey); color: var(--white); padding: .8rem 1rem; font-size: .9rem; }
+  .mobile-nav-links { display: flex; flex-direction: column; gap: 1.4rem; }
+  .mobile-nav-links a { font-family: 'Archivo Black', sans-serif; font-size: 1.1rem; text-transform: uppercase; opacity: .85; }
+  .mobile-nav-links a:hover, .mobile-nav-links a.active { color: var(--red); opacity: 1; }
+
+  /* ===== Mobile breakpoint ===== */
+  @media (max-width: 850px) {
+    .main-nav { justify-content: space-between; }
+    .nav-links { display: none; }      /* hide inline links, shown in drawer instead */
+    .nav-search { display: none; }     /* hide desktop search bar, shown in drawer instead */
+    .hamburger-btn { display: flex; }
+    .nav-center { position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-left, .nav-right { position: relative; z-index: 1; }
+  }
+
+    .icon-btn {
+      background: transparent;
+      border: 1px solid var(--grey);
+      color: var(--white);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      position: relative;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: .3s;
+    }
+
+    .icon-btn:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: var(--red);
+      color: var(--white);
+      font-size: .65rem;
+      font-weight: 700;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page {
+      display: none;
+      min-height: 70vh;
+    }
+
+    .page.active {
+      display: block;
+      animation: fadeIn .4s ease;
+    }
+
+    .page-inner {
+      padding: 2.5rem 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    #page-results {
+      padding: 0;
+    }
+
+    .results-header {
+      text-align: center;
+      padding: 3.5rem 1.5rem 2rem;
+      border-bottom: 3px solid var(--red);
+    }
+
+    .results-title {
+      font-size: clamp(1.8rem, 6vw, 3.2rem);
+      margin-bottom: 1rem;
+    }
+
+    .results-subtitle {
+      font-size: 1.05rem;
+      opacity: .8;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    .score-badge {
+      display: inline-block;
+      background: var(--red);
+      padding: .5rem 1.4rem;
+      font-family: 'Archivo Black', sans-serif;
+      margin-top: 1.3rem;
+      letter-spacing: .05em;
+    }
+
+    .manifesto-strip {
+      background: var(--red);
+      padding: .9rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: .95rem;
+      letter-spacing: .05em;
+    }
+
+    .manifesto-strip span {
+      display: inline-block;
+      animation: scroll 20s linear infinite;
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .results-actions {
+      text-align: center;
+      padding: 0 1.5rem 3rem;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 3rem 1rem 4rem;
+      border-bottom: 2px solid var(--grey);
+      margin-bottom: 3rem;
+    }
+
+    .hero img {
+      max-width: 220px;
+      margin-bottom: 1rem;
+    }
+
+    .hero h2 {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      opacity: .8;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--white);
+      color: var(--white);
+      padding: 1rem 2rem;
+      font-family: 'Archivo Black', sans-serif;
+      text-transform: uppercase;
+      transition: .3s;
+    }
+
+    .btn-outline:hover {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .section-label {
+      font-size: .85rem;
+      color: var(--red);
+      letter-spacing: .2em;
+      text-align: center;
+      margin-bottom: 1.8rem;
+      text-transform: uppercase;
+    }
+
+    .cat-tiles {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      margin: 3rem 0;
+    }
+
+    .cat-tile {
+      background: var(--dark-grey);
+      border: 2px solid var(--grey);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      font-family: 'Archivo Black', sans-serif;
+      text-transform: uppercase;
+      transition: .3s;
+      cursor: pointer;
+    }
+
+    .cat-tile:hover {
+      border-color: var(--red);
+      background: var(--red);
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: .8rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .filter-tab {
+      background: transparent;
+      border: 2px solid var(--grey);
+      color: var(--white);
+      padding: .6rem 1.4rem;
+      font-weight: 700;
+      font-size: .85rem;
+      text-transform: uppercase;
+      transition: .3s;
+    }
+
+    .filter-tab:hover,
+    .filter-tab.active {
+      border-color: var(--red);
+      background: var(--red);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .product-card {
+      background: var(--dark-grey);
+      border: 2px solid var(--grey);
+      overflow: hidden;
+      transition: .3s;
+      position: relative;
+    }
+
+    .product-card:hover {
+      border-color: var(--red);
+      transform: translateY(-6px);
+    }
+
+    .wish-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, .6);
+      border: none;
+      color: var(--white);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      z-index: 2;
+    }
+
+    .wish-btn.active {
+      color: var(--red);
+    }
+
+    .product-image {
+      width: 100%;
+      aspect-ratio: 1;
+      background: var(--grey);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .product-image::before {
+      content: attr(data-cat);
+      font-family: 'Archivo Black', sans-serif;
+      font-size: .7rem;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--red);
+      padding: 3px 8px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .product-mockup {
+      width: 75%;
+      text-align: center;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.3;
+      text-transform: uppercase;
+    }
+
+    .product-info {
+      padding: 1.3rem;
+    }
+
+    .product-name {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: .95rem;
+      margin-bottom: .4rem;
+      text-transform: uppercase;
+    }
+
+    .product-tag {
+      font-size: .82rem;
+      color: var(--red);
+      margin-bottom: 1rem;
+    }
+
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .product-price {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.1rem;
+    }
+
+    .add-btn {
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      padding: .55rem 1.1rem;
+      font-weight: 700;
+      font-size: .8rem;
+      text-transform: uppercase;
+      transition: .3s;
+    }
+
+    .add-btn:hover {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 1rem;
+      opacity: .6;
+    }
+
+    .cart-row {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 1.2rem 0;
+      border-bottom: 1px solid var(--grey);
+      flex-wrap: wrap;
+    }
+
+    .cart-row .thumb {
+      width: 70px;
+      height: 70px;
+      background: var(--grey);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .6rem;
+      font-family: 'Archivo Black', sans-serif;
+      text-align: center;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+
+    .cart-row .info {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .qty-control {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+
+    .qty-control button {
+      background: var(--grey);
+      border: none;
+      color: var(--white);
+      width: 30px;
+      height: 30px;
+      font-size: 1.1rem;
+    }
+
+    .remove-link {
+      color: var(--red);
+      font-size: .8rem;
+      text-decoration: underline;
+    }
+
+    .cart-summary {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid var(--red);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .cart-total {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: .8rem;
+      opacity: .7;
+      margin-bottom: .4rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      background: var(--dark-grey);
+      border: 1px solid var(--grey);
+      color: var(--white);
+      padding: .8rem 1rem;
+      font-size: .95rem;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--red);
+    }
+
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 2.5rem;
+    }
+
+    .order-summary-box {
+      background: var(--dark-grey);
+      border: 2px solid var(--grey);
+      padding: 1.5rem;
+      align-self: start;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: .9rem;
+      padding: .5rem 0;
+      border-bottom: 1px solid var(--grey);
+    }
+
+    .pay-options {
+      display: flex;
+      flex-direction: column;
+      gap: .7rem;
+      margin: 1rem 0 1.5rem;
+    }
+
+    .pay-options label {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      background: var(--dark-grey);
+      border: 1px solid var(--grey);
+      padding: .8rem 1rem;
+      cursor: pointer;
+    }
+
+    .pay-options input {
+      width: auto;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .8);
+      z-index: 3000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: var(--dark-grey);
+      border: 2px solid var(--red);
+      padding: 2.5rem;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 1.4rem;
+    }
+
+    .otp-hint {
+      font-size: .8rem;
+      color: var(--red);
+      margin-top: .8rem;
+      background: rgba(232, 48, 58, .1);
+      padding: .6rem;
+      border: 1px dashed var(--red);
+    }
+
+    .order-card {
+      background: var(--dark-grey);
+      border: 2px solid var(--grey);
+      padding: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    .order-card .oc-head {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Archivo Black', sans-serif;
+      margin-bottom: .6rem;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+
+    table.admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .82rem;
+      margin-top: 1.5rem;
+    }
+
+    table.admin-table th,
+    table.admin-table td {
+      border: 1px solid var(--grey);
+      padding: .6rem;
+      text-align: left;
+    }
+
+    table.admin-table th {
+      background: var(--dark-grey);
+      text-transform: uppercase;
+      font-size: .75rem;
+    }
+
+    footer.site-footer {
+      border-top: 2px solid var(--grey);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      opacity: .7;
+      font-size: .85rem;
+    }
+
+    footer.site-footer a {
+      text-decoration: underline;
+      margin: 0 .5rem;
+    }
+
+    @media (max-width:850px) {
+      .checkout-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width:600px) {
+
+      .gender-options,
+      .quiz-options {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .gender-btn,
+      .quiz-option {
+        width: 100%;
+      }
+
+      .main-nav {
+        padding: .7rem 1rem;
+      }
+
+      .nav-right,
+      .nav-icons,
+      .nav-left {
+        gap: .5rem;
+      }
+
+      .nav-logo {
+        height: 34px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="toast" id="toast"></div>
+  <div class="toast" id="toast"></div>
 
-<!-- ============ INTRO ============ -->
-<div class="screen active" id="intro">
-  <div class="noise-bg"></div>
-  <img src="assets/logo.png" alt="Abhla Mard" class="brand-logo-intro">
-  <p class="tagline">Calling out entitled men. <span class="red-text">Smashing patriarchy.</span></p>
-  <button class="cta-btn" onclick="goToScreen('gender-select')">Take The Test →</button>
-  <a class="ghost-link" onclick="skipToShop()">Already took it? Skip straight to the shop →</a>
-  <p class="scroll-hint">5 questions. Zero filters. All truth.</p>
-</div>
-
-<!-- ============ GENDER SELECT ============ -->
-<div class="screen" id="gender-select">
-  <p class="question-label">Step 1 of 2</p>
-  <h2 class="big-question">First — who are we dealing with here?</h2>
-  <div class="gender-options">
-    <button class="gender-btn" onclick="selectGender('man')">A Man</button>
-    <button class="gender-btn" onclick="selectGender('woman')">A Woman</button>
-    <button class="gender-btn" onclick="selectGender('trans')">Trans / Non-Binary</button>
+  <!-- ============ INTRO ============ -->
+  <div class="screen active" id="intro">
+    <div class="noise-bg"></div>
+    <img src="assets/logo.png" alt="Abhla Mard" class="brand-logo-intro">
+    <p class="tagline">Calling out entitled men. <span class="red-text">Smashing patriarchy.</span></p>
+    <button class="cta-btn" onclick="goToScreen('gender-select')">Take The Test →</button>
+    <a class="ghost-link" onclick="skipToShop()">Already took it? Skip straight to the shop →</a>
+    <p class="scroll-hint">5 questions. Zero filters. All truth.</p>
   </div>
-  <a class="ghost-link" onclick="skipToShop()">Skip test, go to shop →</a>
-</div>
 
-<!-- ============ QUIZ ============ -->
-<div class="screen" id="quiz">
-  <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
-  <p class="quiz-counter" id="quizCounter">QUESTION 1 OF 5</p>
-  <h2 class="quiz-question" id="quizQuestion"></h2>
-  <div class="quiz-options" id="quizOptions"></div>
-</div>
-
-<!-- ============ APP SHELL ============ -->
- 
-<div id="appShell">
-  <header class="main-nav">
-    <img src="assets/logo.png" class="nav-logo" onclick="showPage('home')" alt="Abhla Mard">
-    <nav class="nav-links">
-      <a data-page="home" onclick="showPage('home')">Home</a>
-      <a data-page="shop" onclick="showPage('shop')">Shop</a>
-      <a data-page="about" onclick="showPage('about')">About Us</a>
-      <a data-page="careers" onclick="showPage('careers')">Careers</a>
-      <a data-page="contact" onclick="showPage('contact')">Contact</a>
-    </nav>
-    <div class="nav-search">
-      <input type="text" id="searchInput" placeholder="Search tees..." oninput="handleSearch(this.value)">
+  <!-- ============ GENDER SELECT ============ -->
+  <div class="screen" id="gender-select">
+    <p class="question-label">Step 1 of 2</p>
+    <h2 class="big-question">First — who are we dealing with here?</h2>
+    <div class="gender-options">
+      <button class="gender-btn" onclick="selectGender('man')">A Man</button>
+      <button class="gender-btn" onclick="selectGender('woman')">A Woman</button>
+      <button class="gender-btn" onclick="selectGender('trans')">Trans / Non-Binary</button>
     </div>
-    <div class="nav-icons">
-      <button class="icon-btn" onclick="showPage('wishlist')">♡<span class="badge" id="wishCount">0</span></button>
-      <button class="icon-btn" onclick="showPage('cart')">🛒<span class="badge" id="cartCount">0</span></button>
-      <button class="icon-btn" onclick="showPage('account')">👤</button>
+    <a class="ghost-link" onclick="skipToShop()">Skip test, go to shop →</a>
+  </div>
+
+  <!-- ============ QUIZ ============ -->
+  <div class="screen" id="quiz">
+    <div class="progress-track">
+      <div class="progress-bar" id="progressBar"></div>
     </div>
-  </header>
+    <p class="quiz-counter" id="quizCounter">QUESTION 1 OF 5</p>
+    <h2 class="quiz-question" id="quizQuestion"></h2>
+    <div class="quiz-options" id="quizOptions"></div>
+  </div>
 
-  <main>
-    <!-- QUIZ RESULTS -->
-    <section class="page" id="page-results">
-      <div class="results-header">
-        <h2 class="results-title" id="resultsTitle"></h2>
-        <p class="results-subtitle" id="resultsSubtitle"></p>
-        <div class="score-badge" id="scoreBadge"></div>
-      </div>
-      <div class="manifesto-strip">
-        <span>PERIODS ARE NOT A CURSE • COOKING IS NOT GENDERED • CONSENT IS NOT OPTIONAL • RESPECT IS NOT A FAVOR • PERIODS ARE NOT A CURSE • COOKING IS NOT GENDERED • CONSENT IS NOT OPTIONAL • RESPECT IS NOT A FAVOR •</span>
-      </div>
-      <div class="page-inner">
-        <p class="section-label">Recommended For You</p>
-        <div class="products-grid" id="quizProductsGrid"></div>
-      </div>
-      <div class="results-actions">
-        <button class="btn-outline" onclick="retakeQuiz()">Retake The Test</button>
-        <button class="cta-btn" onclick="showPage('shop')">Browse Full Store →</button>
-      </div>
-    </section>
+  <!-- ============ APP SHELL ============ -->
 
-    <!-- HOME -->
-    <section class="page" id="page-home">
-      <div class="page-inner">
-        <div class="hero">
-          <img src="assets/logo.png" alt="Abhla Mard">
-          <h2>Smashing Patriarchy,<br>One Tee At A Time</h2>
-          <p>Satire merch for the fed up, the fierce, and the done-explaining-themselves.</p>
-          <div class="hero-ctas">
-            <button class="cta-btn" onclick="showPage('shop')">Shop Now</button>
-            <button class="btn-outline" onclick="retakeQuiz()">Retake The Test</button>
-          </div>
+  <div id="appShell">
+    <header class="main-nav">
+      <div class="nav-left">
+        <button class="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Open menu">☰</button>
+        <img src="assets/logo.png" class="nav-logo" onclick="showPage('home')" alt="Abhla Mard">
+      </div>
+      <div class="nav-center">
+        <nav class="nav-links">
+          <a data-page="home" onclick="showPage('home')">Home</a>
+          <a data-page="shop" onclick="showPage('shop')">Shop</a>
+          <a data-page="about" onclick="showPage('about')">About Us</a>
+          <a data-page="careers" onclick="showPage('careers')">Careers</a>
+          <a data-page="contact" onclick="showPage('contact')">Contact</a>
+        </nav>
+      </div>
+      <div class="nav-right">
+        <div class="nav-search">
+          <input type="text" class="search-input" id="searchInput" placeholder="Search tees..."
+            oninput="handleSearch(this.value)">
         </div>
-        <p class="section-label">Recommended For You</p>
-        <div class="products-grid" id="homeRecGrid"></div>
-        <div class="cat-tiles">
-          <div class="cat-tile" onclick="goShopWithFilter('man')">For Him</div>
-          <div class="cat-tile" onclick="goShopWithFilter('woman')">For Her</div>
-          <div class="cat-tile" onclick="goShopWithFilter('trans')">For Them</div>
+        <div class="nav-icons">
+          <button class="icon-btn" aria-label="Wishlist" onclick="showPage('wishlist')">♡<span class="badge" id="wishCount">0</span></button>
+          <button class="icon-btn" aria-label="Cart" onclick="showPage('cart')">🛒<span class="badge" id="cartCount">0</span></button>
+          <button class="icon-btn" aria-label="Account" onclick="showPage('account')">👤</button>
         </div>
       </div>
-    </section>
+    </header>
 
-    <!-- SHOP -->
-    <section class="page" id="page-shop">
-      <div class="page-inner">
-        <p class="section-label">Shop The Collection</p>
-        <div class="filter-bar" id="filterBar">
-          <button class="filter-tab active" data-cat="all" onclick="filterCategory('all')">All</button>
-          <button class="filter-tab" data-cat="man" onclick="filterCategory('man')">For Him</button>
-          <button class="filter-tab" data-cat="woman" onclick="filterCategory('woman')">For Her</button>
-          <button class="filter-tab" data-cat="trans" onclick="filterCategory('trans')">For Them</button>
+    <!-- Mobile slide-in menu -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="if(event.target===this) closeMobileMenu()">
+      <div class="mobile-menu-panel">
+        <button class="mobile-menu-close" onclick="closeMobileMenu()" aria-label="Close menu">×</button>
+        <div class="mobile-search">
+          <input type="text" class="search-input" placeholder="Search tees..."
+            oninput="handleSearch(this.value)" onkeydown="if(event.key==='Enter') closeMobileMenu()">
         </div>
-        <div class="products-grid" id="shopGrid"></div>
+        <nav class="mobile-nav-links">
+          <a data-page="home" onclick="navigateMobile('home')">Home</a>
+          <a data-page="shop" onclick="navigateMobile('shop')">Shop</a>
+          <a data-page="about" onclick="navigateMobile('about')">About Us</a>
+          <a data-page="careers" onclick="navigateMobile('careers')">Careers</a>
+          <a data-page="contact" onclick="navigateMobile('contact')">Contact</a>
+        </nav>
       </div>
-    </section>
+    </div>
 
-    <!-- WISHLIST -->
-    <section class="page" id="page-wishlist">
-      <div class="page-inner">
-        <p class="section-label">Your Wishlist</p>
-        <div class="products-grid" id="wishlistGrid"></div>
-      </div>
-    </section>
-
-    <!-- CART -->
-    <section class="page" id="page-cart">
-      <div class="page-inner">
-        <p class="section-label">Your Cart</p>
-        <div id="cartItems"></div>
-        <div class="cart-summary" id="cartSummary" style="display:none;">
-          <div class="cart-total">Total: ₹<span id="cartTotalAmt">0</span></div>
-          <button class="cta-btn" onclick="goToCheckout()">Proceed to Checkout →</button>
+    <main>
+      <!-- QUIZ RESULTS -->
+      <section class="page" id="page-results">
+        <div class="results-header">
+          <h2 class="results-title" id="resultsTitle"></h2>
+          <p class="results-subtitle" id="resultsSubtitle"></p>
+          <div class="score-badge" id="scoreBadge"></div>
         </div>
-      </div>
-    </section>
+        <div class="manifesto-strip">
+          <span>PERIODS ARE NOT A CURSE • COOKING IS NOT GENDERED • CONSENT IS NOT OPTIONAL • RESPECT IS NOT A FAVOR •
+            PERIODS ARE NOT A CURSE • COOKING IS NOT GENDERED • CONSENT IS NOT OPTIONAL • RESPECT IS NOT A FAVOR
+            •</span>
+        </div>
+        <div class="page-inner">
+          <p class="section-label">Recommended For You</p>
+          <div class="products-grid" id="quizProductsGrid"></div>
+        </div>
+        <div class="results-actions">
+          <button class="btn-outline" onclick="retakeQuiz()">Retake The Test</button>
+          <button class="cta-btn" onclick="showPage('shop')">Browse Full Store →</button>
+        </div>
+      </section>
 
-    <!-- CHECKOUT -->
-    <section class="page" id="page-checkout">
-      <div class="page-inner">
-        <p class="section-label">Checkout</p>
-        <div class="checkout-grid">
-          <div>
-            <div class="form-group"><label>Full Name</label><input type="text" id="coName"></div>
-            <div class="form-group"><label>Phone Number</label><input type="tel" id="coPhone" readonly></div>
-            <div class="form-group"><label>Address Line</label><input type="text" id="coAddress" placeholder="House no, street, area"></div>
-            <div class="form-group"><label>City</label><input type="text" id="coCity"></div>
-            <div class="form-group"><label>State</label><input type="text" id="coState"></div>
-            <div class="form-group"><label>Pincode</label><input type="text" id="coPincode" maxlength="6"></div>
-            <p class="form-group" style="text-transform:uppercase; font-size:.8rem; opacity:.7;">Payment Method</p>
-            <div class="pay-options">
-              <label><input type="radio" name="payment" value="COD" checked> Cash on Delivery</label>
-              <label><input type="radio" name="payment" value="UPI"> UPI</label>
-              <label><input type="radio" name="payment" value="Card"> Credit/Debit Card</label>
-            </div>
-            <button class="cta-btn" onclick="placeOrder()" style="width:100%;">Place Order</button>
-          </div>
-          <div class="order-summary-box">
-            <h3 style="font-size:1.1rem; margin-bottom:1rem;">Order Summary</h3>
-            <div id="checkoutSummaryItems"></div>
-            <div class="summary-row" style="border:none; font-family:'Archivo Black',sans-serif; font-size:1.1rem; margin-top:.5rem;">
-              <span>Total</span><span>₹<span id="checkoutTotal">0</span></span>
+      <!-- HOME -->
+      <section class="page" id="page-home">
+        <div class="page-inner">
+          <div class="hero">
+            <img src="assets/logo.png" alt="Abhla Mard">
+            <h2>Smashing Patriarchy,<br>One Tee At A Time</h2>
+            <p>Satire merch for the fed up, the fierce, and the done-explaining-themselves.</p>
+            <div class="hero-ctas">
+              <button class="cta-btn" onclick="showPage('shop')">Shop Now</button>
+              <button class="btn-outline" onclick="retakeQuiz()">Retake The Test</button>
             </div>
           </div>
+          <p class="section-label">Recommended For You</p>
+          <div class="products-grid" id="homeRecGrid"></div>
+          <div class="cat-tiles">
+            <div class="cat-tile" onclick="goShopWithFilter('man')">For Him</div>
+            <div class="cat-tile" onclick="goShopWithFilter('woman')">For Her</div>
+            <div class="cat-tile" onclick="goShopWithFilter('trans')">For Them</div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ORDER SUCCESS -->
-    <section class="page" id="page-order-success">
-      <div class="page-inner" style="text-align:center;">
-        <h2 style="font-size:2.5rem; color:var(--red); margin-bottom:1rem;">✓ Order Placed!</h2>
-        <p style="opacity:.8; margin-bottom:.5rem;">Order ID: <strong id="successOrderId"></strong></p>
-        <p style="opacity:.6; margin-bottom:2rem;">Patriarchy: 1 step closer to defeat.</p>
-        <button class="cta-btn" onclick="showPage('home')">Continue Shopping</button>
-      </div>
-    </section>
-
-    <!-- ACCOUNT -->
-    <section class="page" id="page-account">
-      <div class="page-inner">
-        <p class="section-label">My Account</p>
-        <div id="accountContent"></div>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section class="page" id="page-about">
-      <div class="page-inner">
-        <p class="section-label">About Us</p>
-        <div style="max-width:700px; margin:0 auto; line-height:1.8;">
-          <h2 style="margin-bottom:1.5rem; font-size:2rem;">We're loud on purpose.</h2>
-          <p style="margin-bottom:1.2rem; opacity:.85;">Abhla Mard started as an inside joke and turned into a movement. We make merch that calls out entitlement disguised as tradition, mocks the double standards we were raised on, and gives words to the things we were told to stay quiet about.</p>
-          <p style="margin-bottom:1.2rem; opacity:.85;">We're not here to be comfortable. We're here to be honest — with humor, with satire, and with a whole lot of red ink.</p>
-          <p style="opacity:.85;">Every tee is a tiny act of rebellion. Wear it like one.</p>
+      <!-- SHOP -->
+      <section class="page" id="page-shop">
+        <div class="page-inner">
+          <p class="section-label">Shop The Collection</p>
+          <div class="filter-bar" id="filterBar">
+            <button class="filter-tab active" data-cat="all" onclick="filterCategory('all')">All</button>
+            <button class="filter-tab" data-cat="man" onclick="filterCategory('man')">For Him</button>
+            <button class="filter-tab" data-cat="woman" onclick="filterCategory('woman')">For Her</button>
+            <button class="filter-tab" data-cat="trans" onclick="filterCategory('trans')">For Them</button>
+          </div>
+          <div class="products-grid" id="shopGrid"></div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- CAREERS -->
-    <section class="page" id="page-careers">
-      <div class="page-inner">
-        <p class="section-label">Careers</p>
-        <div style="max-width:700px; margin:0 auto;">
-          <div class="order-card">
-            <h3>Chief Patriarchy Destroyer</h3>
-            <p style="opacity:.7; margin:.5rem 0;">Full-time · Remote</p>
-            <p style="opacity:.85;">Must enjoy calling things out, saying "no" without guilt, and designing merch with unapologetic energy.</p>
-          </div>
-          <div class="order-card">
-            <h3>Meme & Satire Writer</h3>
-            <p style="opacity:.7; margin:.5rem 0;">Part-time · Remote</p>
-            <p style="opacity:.85;">You understand irony. You've been "allowed" to do something once. You turned it into content.</p>
-          </div>
-          <div class="order-card">
-            <h3>Customer Experience Rebel</h3>
-            <p style="opacity:.7; margin:.5rem 0;">Full-time · Hybrid</p>
-            <p style="opacity:.85;">Help our customers get their orders — and occasionally talk someone out of buying their entitled cousin a gift.</p>
-          </div>
+      <!-- WISHLIST -->
+      <section class="page" id="page-wishlist">
+        <div class="page-inner">
+          <p class="section-label">Your Wishlist</p>
+          <div class="products-grid" id="wishlistGrid"></div>
+        </div>
+      </section>
 
-          <!-- CAREERS APPLICATION FORM -->
-          <div class="order-card" style="margin-top:2.5rem;">
-            <h3 style="margin-bottom:1.3rem;">Apply Now</h3>
-            <form onsubmit="submitCareerForm(event)">
-              <div class="form-group"><label>Full Name</label><input type="text" id="careerName" required></div>
+      <!-- CART -->
+      <section class="page" id="page-cart">
+        <div class="page-inner">
+          <p class="section-label">Your Cart</p>
+          <div id="cartItems"></div>
+          <div class="cart-summary" id="cartSummary" style="display:none;">
+            <div class="cart-total">Total: ₹<span id="cartTotalAmt">0</span></div>
+            <button class="cta-btn" onclick="goToCheckout()">Proceed to Checkout →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHECKOUT -->
+      <section class="page" id="page-checkout">
+        <div class="page-inner">
+          <p class="section-label">Checkout</p>
+          <div class="checkout-grid">
+            <div>
+              <div class="form-group"><label>Full Name</label><input type="text" id="coName"></div>
+              <div class="form-group"><label>Phone Number</label><input type="tel" id="coPhone" readonly></div>
+              <div class="form-group"><label>Address Line</label><input type="text" id="coAddress"
+                  placeholder="House no, street, area"></div>
+              <div class="form-group"><label>City</label><input type="text" id="coCity"></div>
+              <div class="form-group"><label>State</label><input type="text" id="coState"></div>
+              <div class="form-group"><label>Pincode</label><input type="text" id="coPincode" maxlength="6"></div>
+              <p class="form-group" style="text-transform:uppercase; font-size:.8rem; opacity:.7;">Payment Method</p>
+              <div class="pay-options">
+                <label><input type="radio" name="payment" value="COD" checked> Cash on Delivery</label>
+                <label><input type="radio" name="payment" value="UPI"> UPI</label>
+                <label><input type="radio" name="payment" value="Card"> Credit/Debit Card</label>
+              </div>
+              <button class="cta-btn" onclick="placeOrder()" style="width:100%;">Place Order</button>
+            </div>
+            <div class="order-summary-box">
+              <h3 style="font-size:1.1rem; margin-bottom:1rem;">Order Summary</h3>
+              <div id="checkoutSummaryItems"></div>
+              <div class="summary-row"
+                style="border:none; font-family:'Archivo Black',sans-serif; font-size:1.1rem; margin-top:.5rem;">
+                <span>Total</span><span>₹<span id="checkoutTotal">0</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ORDER SUCCESS -->
+      <section class="page" id="page-order-success">
+        <div class="page-inner" style="text-align:center;">
+          <h2 style="font-size:2.5rem; color:var(--red); margin-bottom:1rem;">✓ Order Placed!</h2>
+          <p style="opacity:.8; margin-bottom:.5rem;">Order ID: <strong id="successOrderId"></strong></p>
+          <p style="opacity:.6; margin-bottom:2rem;">Patriarchy: 1 step closer to defeat.</p>
+          <button class="cta-btn" onclick="showPage('home')">Continue Shopping</button>
+        </div>
+      </section>
+
+      <!-- ACCOUNT -->
+      <section class="page" id="page-account">
+        <div class="page-inner">
+          <p class="section-label">My Account</p>
+          <div id="accountContent"></div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section class="page" id="page-about">
+        <div class="page-inner">
+          <p class="section-label">About Us</p>
+          <div style="max-width:700px; margin:0 auto; line-height:1.8;">
+            <h2 style="margin-bottom:1.5rem; font-size:2rem;">We're loud on purpose.</h2>
+            <p style="margin-bottom:1.2rem; opacity:.85;">Abhla Mard started as an inside joke and turned into a
+              movement. We make merch that calls out entitlement disguised as tradition, mocks the double standards we
+              were raised on, and gives words to the things we were told to stay quiet about.</p>
+            <p style="margin-bottom:1.2rem; opacity:.85;">We're not here to be comfortable. We're here to be honest —
+              with humor, with satire, and with a whole lot of red ink.</p>
+            <p style="opacity:.85;">Every tee is a tiny act of rebellion. Wear it like one.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CAREERS -->
+      <section class="page" id="page-careers">
+        <div class="page-inner">
+          <p class="section-label">Careers</p>
+          <div style="max-width:700px; margin:0 auto;">
+            <div class="order-card">
+              <h3>Chief Patriarchy Destroyer</h3>
+              <p style="opacity:.7; margin:.5rem 0;">Full-time · Remote</p>
+              <p style="opacity:.85;">Must enjoy calling things out, saying "no" without guilt, and designing merch with
+                unapologetic energy.</p>
+            </div>
+            <div class="order-card">
+              <h3>Meme & Satire Writer</h3>
+              <p style="opacity:.7; margin:.5rem 0;">Part-time · Remote</p>
+              <p style="opacity:.85;">You understand irony. You've been "allowed" to do something once. You turned it
+                into content.</p>
+            </div>
+            <div class="order-card">
+              <h3>Customer Experience Rebel</h3>
+              <p style="opacity:.7; margin:.5rem 0;">Full-time · Hybrid</p>
+              <p style="opacity:.85;">Help our customers get their orders — and occasionally talk someone out of buying
+                their entitled cousin a gift.</p>
+            </div>
+
+            <!-- CAREERS APPLICATION FORM -->
+            <div class="order-card" style="margin-top:2.5rem;">
+              <h3 style="margin-bottom:1.3rem;">Apply Now</h3>
+              <form onsubmit="submitCareerForm(event)">
+                <div class="form-group"><label>Full Name</label><input type="text" id="careerName" required></div>
+                <div class="form-group">
+                  <label>Are you a feminist?</label>
+                  <select id="careerFeminist" required>
+                    <option value="">Select one</option>
+                    <option value="Yes">Yes, proudly</option>
+                    <option value="No">No</option>
+                    <option value="Still figuring it out">Still figuring it out</option>
+                  </select>
+                </div>
+                <div class="form-group"><label>Email</label><input type="email" id="careerEmail" required></div>
+                <div class="form-group"><label>Phone Number</label><input type="tel" id="careerPhone"
+                    placeholder="10-digit number" maxlength="10" required></div>
+                <div class="form-group"><label>Location</label><input type="text" id="careerLocation"
+                    placeholder="City, State" required></div>
+                <button class="cta-btn" type="submit" style="width:100%;">Submit Application</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT US -->
+      <section class="page" id="page-contact">
+        <div class="page-inner">
+          <p class="section-label">Contact Us</p>
+          <div style="max-width:500px; margin:0 auto;">
+            <p style="text-align:center; opacity:.75; margin-bottom:2rem;">Got a question, a collab idea, or just want
+              to tell us we're right? Drop your details below.</p>
+            <form onsubmit="submitContactForm(event)">
+              <div class="form-group"><label>Full Name</label><input type="text" id="contactName" required></div>
               <div class="form-group">
                 <label>Are you a feminist?</label>
-                <select id="careerFeminist" required>
+                <select id="contactFeminist" required>
                   <option value="">Select one</option>
                   <option value="Yes">Yes, proudly</option>
                   <option value="No">No</option>
                   <option value="Still figuring it out">Still figuring it out</option>
                 </select>
               </div>
-              <div class="form-group"><label>Email</label><input type="email" id="careerEmail" required></div>
-              <div class="form-group"><label>Phone Number</label><input type="tel" id="careerPhone" placeholder="10-digit number" maxlength="10" required></div>
-              <div class="form-group"><label>Location</label><input type="text" id="careerLocation" placeholder="City, State" required></div>
-              <button class="cta-btn" type="submit" style="width:100%;">Submit Application</button>
+              <div class="form-group"><label>Email</label><input type="email" id="contactEmail" required></div>
+              <div class="form-group"><label>Phone Number</label><input type="tel" id="contactPhone"
+                  placeholder="10-digit number" maxlength="10" required></div>
+              <div class="form-group"><label>Location</label><input type="text" id="contactLocation"
+                  placeholder="City, State" required></div>
+              <button class="cta-btn" type="submit" style="width:100%;">Send Message</button>
             </form>
           </div>
         </div>
+      </section>
+
+      <!-- ADMIN -->
+      <section class="page" id="page-admin">
+        <div class="page-inner">
+          <p class="section-label">Orders Log (Admin)</p>
+          <div style="text-align:center; margin-bottom:1.5rem;">
+            <button class="btn-outline" onclick="exportOrdersCSV()">⬇ Export Orders CSV</button>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="admin-table" id="adminTable"></table>
+          </div>
+
+          <p class="section-label" style="margin-top:3.5rem;">Career Applications</p>
+          <div style="text-align:center; margin-bottom:1.5rem;">
+            <button class="btn-outline" onclick="exportCareerCSV()">⬇ Export Applications CSV</button>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="admin-table" id="careerTable"></table>
+          </div>
+
+          <p class="section-label" style="margin-top:3.5rem;">Contact Messages</p>
+          <div style="text-align:center; margin-bottom:1.5rem;">
+            <button class="btn-outline" onclick="exportContactCSV()">⬇ Export Messages CSV</button>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="admin-table" id="contactTable"></table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© 2026 Abhla Mard. All rights reserved (and so is our sarcasm).</p>
+      <p style="margin-top:.5rem;">
+        <a onclick="showPage('about')">About</a> · <a onclick="showPage('careers')">Careers</a> · <a
+          onclick="showPage('contact')">Contact</a>
+      </p>
+    </footer>
+  </div>
+
+  <!-- ============ LOGIN MODAL (OTP) ============ -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeLoginModal()">×</button>
+      <h3 style="margin-bottom:1.5rem;">Login to Continue</h3>
+      <div id="loginStepPhone">
+        <div class="form-group"><label>Mobile Number</label><input type="tel" id="loginPhone"
+            placeholder="10-digit number" maxlength="10"></div>
+        <button class="cta-btn" style="width:100%;" onclick="sendOtp()">Send OTP</button>
       </div>
-    </section>
-
-    <!-- CONTACT US -->
-    <section class="page" id="page-contact">
-      <div class="page-inner">
-        <p class="section-label">Contact Us</p>
-        <div style="max-width:500px; margin:0 auto;">
-          <p style="text-align:center; opacity:.75; margin-bottom:2rem;">Got a question, a collab idea, or just want to tell us we're right? Drop your details below.</p>
-          <form onsubmit="submitContactForm(event)">
-            <div class="form-group"><label>Full Name</label><input type="text" id="contactName" required></div>
-            <div class="form-group">
-              <label>Are you a feminist?</label>
-              <select id="contactFeminist" required>
-                <option value="">Select one</option>
-                <option value="Yes">Yes, proudly</option>
-                <option value="No">No</option>
-                <option value="Still figuring it out">Still figuring it out</option>
-              </select>
-            </div>
-            <div class="form-group"><label>Email</label><input type="email" id="contactEmail" required></div>
-            <div class="form-group"><label>Phone Number</label><input type="tel" id="contactPhone" placeholder="10-digit number" maxlength="10" required></div>
-            <div class="form-group"><label>Location</label><input type="text" id="contactLocation" placeholder="City, State" required></div>
-            <button class="cta-btn" type="submit" style="width:100%;">Send Message</button>
-          </form>
-        </div>
+      <div id="loginStepOtp" style="display:none;">
+        <div class="form-group"><label>Enter OTP</label><input type="text" id="loginOtp" placeholder="4-digit OTP"
+            maxlength="4"></div>
+        <p class="otp-hint" id="otpHintText"></p>
+        <button class="cta-btn" style="width:100%; margin-top:1rem;" onclick="verifyOtp()">Verify & Continue</button>
+        <a class="ghost-link" onclick="sendOtp()">Resend OTP</a>
       </div>
-    </section>
-
-    <!-- ADMIN -->
-    <section class="page" id="page-admin">
-      <div class="page-inner">
-        <p class="section-label">Orders Log (Admin)</p>
-        <div style="text-align:center; margin-bottom:1.5rem;">
-          <button class="btn-outline" onclick="exportOrdersCSV()">⬇ Export Orders CSV</button>
-        </div>
-        <div style="overflow-x:auto;">
-          <table class="admin-table" id="adminTable"></table>
-        </div>
-
-        <p class="section-label" style="margin-top:3.5rem;">Career Applications</p>
-        <div style="text-align:center; margin-bottom:1.5rem;">
-          <button class="btn-outline" onclick="exportCareerCSV()">⬇ Export Applications CSV</button>
-        </div>
-        <div style="overflow-x:auto;">
-          <table class="admin-table" id="careerTable"></table>
-        </div>
-
-        <p class="section-label" style="margin-top:3.5rem;">Contact Messages</p>
-        <div style="text-align:center; margin-bottom:1.5rem;">
-          <button class="btn-outline" onclick="exportContactCSV()">⬇ Export Messages CSV</button>
-        </div>
-        <div style="overflow-x:auto;">
-          <table class="admin-table" id="contactTable"></table>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <p>© 2026 Abhla Mard. All rights reserved (and so is our sarcasm).</p>
-    <p style="margin-top:.5rem;">
-      <a onclick="showPage('about')">About</a> · <a onclick="showPage('careers')">Careers</a> · <a onclick="showPage('contact')">Contact</a> 
-    </p>
-  </footer>
-</div>
-
-<!-- ============ LOGIN MODAL (OTP) ============ -->
-<div class="modal-overlay" id="loginModal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeLoginModal()">×</button>
-    <h3 style="margin-bottom:1.5rem;">Login to Continue</h3>
-    <div id="loginStepPhone">
-      <div class="form-group"><label>Mobile Number</label><input type="tel" id="loginPhone" placeholder="10-digit number" maxlength="10"></div>
-      <button class="cta-btn" style="width:100%;" onclick="sendOtp()">Send OTP</button>
-    </div>
-    <div id="loginStepOtp" style="display:none;">
-      <div class="form-group"><label>Enter OTP</label><input type="text" id="loginOtp" placeholder="4-digit OTP" maxlength="4"></div>
-      <p class="otp-hint" id="otpHintText"></p>
-      <button class="cta-btn" style="width:100%; margin-top:1rem;" onclick="verifyOtp()">Verify & Continue</button>
-      <a class="ghost-link" onclick="sendOtp()">Resend OTP</a>
     </div>
   </div>
-</div>
 
-<!-- ============ ADMIN GATE MODAL ============ -->
-<div class="modal-overlay" id="adminGateModal">
-  <div class="modal-box">
-    <h3 style="margin-bottom:1.5rem;">Restricted Area</h3>
-    <p style="opacity:.7; font-size:.85rem; margin-bottom:1.5rem;">This section is for site admins only.</p>
-    <div class="form-group">
-      <label>Admin Password</label>
-      <input type="password" id="adminPassInput" placeholder="Enter password" onkeydown="if(event.key==='Enter') verifyAdminPassword()">
+  <!-- ============ ADMIN GATE MODAL ============ -->
+  <div class="modal-overlay" id="adminGateModal">
+    <div class="modal-box">
+      <h3 style="margin-bottom:1.5rem;">Restricted Area</h3>
+      <p style="opacity:.7; font-size:.85rem; margin-bottom:1.5rem;">This section is for site admins only.</p>
+      <div class="form-group">
+        <label>Admin Password</label>
+        <input type="password" id="adminPassInput" placeholder="Enter password"
+          onkeydown="if(event.key==='Enter') verifyAdminPassword()">
+      </div>
+      <button class="cta-btn" style="width:100%;" onclick="verifyAdminPassword()">Unlock</button>
+      <a class="ghost-link" onclick="exitAdminGate()">← Back to site</a>
     </div>
-    <button class="cta-btn" style="width:100%;" onclick="verifyAdminPassword()">Unlock</button>
-    <a class="ghost-link" onclick="exitAdminGate()">← Back to site</a>
   </div>
-</div>
 
-<script>
-/* ===================== PRODUCT DATA ===================== */
-const productCatalog = {
-  man: [
-    { name:"Certified Kitchen Illiterate", tag:"For the stove-phobic", price:799, trigger:0 },
-    { name:"Survival Mode: Mom Not Included", tag:"Learn to cook, bestie", price:849, trigger:1 },
-    { name:"Period? Never Heard Of Her", tag:"Basic biology 101", price:799, trigger:2 },
-    { name:"Fragile: Handle With Therapy", tag:"For the emotionally unavailable", price:899, trigger:3 },
-    { name:"Default Setting: Entitled", tag:"Factory reset recommended", price:799, trigger:4 }
-  ],
-  woman: [
-    { name:"Not Your Baby's Mama (He's 35)", tag:"He can feed himself", price:799, trigger:0 },
-    { name:"Permission? I Don't Do That", tag:"My life, my rules", price:849, trigger:1 },
-    { name:"Adjusted Enough For 10 Lifetimes", tag:"Retired from compromising", price:799, trigger:2 },
-    { name:"Married To My Peace", tag:"No ring required", price:899, trigger:3 },
-    { name:"My Clothes Are Not Your Excuse", tag:"Accountability starts with you", price:799, trigger:4 }
-  ],
-  trans: [
-    { name:"Still Here. Still Fabulous.", tag:"Unbothered by hate", price:849, trigger:0 },
-    { name:"My Identity Isn't Up For Debate", tag:"Not a discussion topic", price:799, trigger:1 },
-    { name:"Education > Your Ignorance", tag:"Do better", price:849, trigger:2 },
-    { name:"Unbothered & Unbroken", tag:"Still standing, still thriving", price:899, trigger:3 },
-    { name:"Correct My Pronouns, Not My Existence", tag:"It's not that hard", price:799, trigger:4 }
-  ]
-};
-const questionSets = {
-  man: [
-    { q:"Do you know how to switch on a stove without calling for help?", options:[{text:"Yes, I'm basically a chef",problematic:false},{text:"What's a stove?",problematic:true}] },
-    { q:"Can you cook yourself a full meal without texting 'mom what do I eat'?", options:[{text:"Obviously, I'm an adult",problematic:false},{text:"I'd genuinely starve",problematic:true}] },
-    { q:"Do you actually understand what a period is, biologically?", options:[{text:"Yes, basic human biology",problematic:false},{text:"Something... to do with blood?",problematic:true}] },
-    { q:"When she's on her period and in pain, your first move is:", options:[{text:"Get her what she needs, be kind",problematic:false},{text:"Tell her to 'calm down' or avoid her",problematic:true}] },
-    { q:"Have you ever said (or thought) 'women belong in the kitchen'?", options:[{text:"Never. That's gross.",problematic:false},{text:"Maybe once... or twice",problematic:true}] }
-  ],
-  woman: [
-    { q:"Have you ever had to feed a full-grown man like he's a toddler?", options:[{text:"Unfortunately, yes",problematic:true},{text:"No, thank god",problematic:false}] },
-    { q:"Has a man ever 'allowed' or 'permitted' you to study or work?", options:[{text:"Yes, like I needed his approval",problematic:true},{text:"No, I do what I want",problematic:false}] },
-    { q:"Told to 'adjust' for family peace while he does nothing?", options:[{text:"Constantly",problematic:true},{text:"Not really",problematic:false}] },
-    { q:"Asked 'why aren't you married yet' more times than you can count?", options:[{text:"It's basically a greeting now",problematic:true},{text:"No one's asked",problematic:false}] },
-    { q:"Blamed for a man's bad behavior because of your clothes?", options:[{text:"Yes, every time",problematic:true},{text:"No, never",problematic:false}] }
-  ],
-  trans: [
-    { q:"Have you faced slurs or hateful words because of who you are?", options:[{text:"Yes, more times than I can count",problematic:true},{text:"No, I've been lucky",problematic:false}] },
-    { q:"Been denied basic respect or access because of your identity?", options:[{text:"Yes, constantly",problematic:true},{text:"No, not really",problematic:false}] },
-    { q:"Had to explain or justify your identity to ignorant people?", options:[{text:"All the time. Exhausting.",problematic:true},{text:"Rarely",problematic:false}] },
-    { q:"Faced threats or unsafe situations for being yourself?", options:[{text:"Yes, unfortunately",problematic:true},{text:"No, thankfully not",problematic:false}] },
-    { q:"Been intentionally misgendered to disrespect you?", options:[{text:"Yes, deliberately",problematic:true},{text:"No",problematic:false}] }
-  ]
-};
-const resultsCopy = {
-  man: { high:{title:"Oh no. We need to talk.",subtitle:"Your answers suggest you might be part of the problem. There's merch for self-awareness."}, low:{title:"Okay, not entirely hopeless.",subtitle:"You passed the bare minimum test. Wear that (barely-there) pride."} },
-  woman: { high:{title:"We see you. We stand with you.",subtitle:"This merch is your armor — wear it loud."}, low:{title:"Lucky you (sort of).",subtitle:"You've dodged some bullets. Here's merch for solidarity with those who haven't."} },
-  trans: { high:{title:"Your resilience is the real flex.",subtitle:"This collection is for your strength and unapologetic existence."}, low:{title:"Glad it's been easier for you.",subtitle:"Wear this to stand with those still fighting for basic respect."} }
-};
+  <script>
+    /* ===================== PRODUCT DATA ===================== */
+    const productCatalog = {
+      man: [
+        { name: "Certified Kitchen Illiterate", tag: "For the stove-phobic", price: 799, trigger: 0 },
+        { name: "Survival Mode: Mom Not Included", tag: "Learn to cook, bestie", price: 849, trigger: 1 },
+        { name: "Period? Never Heard Of Her", tag: "Basic biology 101", price: 799, trigger: 2 },
+        { name: "Fragile: Handle With Therapy", tag: "For the emotionally unavailable", price: 899, trigger: 3 },
+        { name: "Default Setting: Entitled", tag: "Factory reset recommended", price: 799, trigger: 4 }
+      ],
+      woman: [
+        { name: "Not Your Baby's Mama (He's 35)", tag: "He can feed himself", price: 799, trigger: 0 },
+        { name: "Permission? I Don't Do That", tag: "My life, my rules", price: 849, trigger: 1 },
+        { name: "Adjusted Enough For 10 Lifetimes", tag: "Retired from compromising", price: 799, trigger: 2 },
+        { name: "Married To My Peace", tag: "No ring required", price: 899, trigger: 3 },
+        { name: "My Clothes Are Not Your Excuse", tag: "Accountability starts with you", price: 799, trigger: 4 }
+      ],
+      trans: [
+        { name: "Still Here. Still Fabulous.", tag: "Unbothered by hate", price: 849, trigger: 0 },
+        { name: "My Identity Isn't Up For Debate", tag: "Not a discussion topic", price: 799, trigger: 1 },
+        { name: "Education > Your Ignorance", tag: "Do better", price: 849, trigger: 2 },
+        { name: "Unbothered & Unbroken", tag: "Still standing, still thriving", price: 899, trigger: 3 },
+        { name: "Correct My Pronouns, Not My Existence", tag: "It's not that hard", price: 799, trigger: 4 }
+      ]
+    };
+    const questionSets = {
+      man: [
+        { q: "Do you know how to switch on a stove without calling for help?", options: [{ text: "Yes, I'm basically a chef", problematic: false }, { text: "What's a stove?", problematic: true }] },
+        { q: "Can you cook yourself a full meal without texting 'mom what do I eat'?", options: [{ text: "Obviously, I'm an adult", problematic: false }, { text: "I'd genuinely starve", problematic: true }] },
+        { q: "Do you actually understand what a period is, biologically?", options: [{ text: "Yes, basic human biology", problematic: false }, { text: "Something... to do with blood?", problematic: true }] },
+        { q: "When she's on her period and in pain, your first move is:", options: [{ text: "Get her what she needs, be kind", problematic: false }, { text: "Tell her to 'calm down' or avoid her", problematic: true }] },
+        { q: "Have you ever said (or thought) 'women belong in the kitchen'?", options: [{ text: "Never. That's gross.", problematic: false }, { text: "Maybe once... or twice", problematic: true }] }
+      ],
+      woman: [
+        { q: "Have you ever had to feed a full-grown man like he's a toddler?", options: [{ text: "Unfortunately, yes", problematic: true }, { text: "No, thank god", problematic: false }] },
+        { q: "Has a man ever 'allowed' or 'permitted' you to study or work?", options: [{ text: "Yes, like I needed his approval", problematic: true }, { text: "No, I do what I want", problematic: false }] },
+        { q: "Told to 'adjust' for family peace while he does nothing?", options: [{ text: "Constantly", problematic: true }, { text: "Not really", problematic: false }] },
+        { q: "Asked 'why aren't you married yet' more times than you can count?", options: [{ text: "It's basically a greeting now", problematic: true }, { text: "No one's asked", problematic: false }] },
+        { q: "Blamed for a man's bad behavior because of your clothes?", options: [{ text: "Yes, every time", problematic: true }, { text: "No, never", problematic: false }] }
+      ],
+      trans: [
+        { q: "Have you faced slurs or hateful words because of who you are?", options: [{ text: "Yes, more times than I can count", problematic: true }, { text: "No, I've been lucky", problematic: false }] },
+        { q: "Been denied basic respect or access because of your identity?", options: [{ text: "Yes, constantly", problematic: true }, { text: "No, not really", problematic: false }] },
+        { q: "Had to explain or justify your identity to ignorant people?", options: [{ text: "All the time. Exhausting.", problematic: true }, { text: "Rarely", problematic: false }] },
+        { q: "Faced threats or unsafe situations for being yourself?", options: [{ text: "Yes, unfortunately", problematic: true }, { text: "No, thankfully not", problematic: false }] },
+        { q: "Been intentionally misgendered to disrespect you?", options: [{ text: "Yes, deliberately", problematic: true }, { text: "No", problematic: false }] }
+      ]
+    };
+    const resultsCopy = {
+      man: { high: { title: "Oh no. We need to talk.", subtitle: "Your answers suggest you might be part of the problem. There's merch for self-awareness." }, low: { title: "Okay, not entirely hopeless.", subtitle: "You passed the bare minimum test. Wear that (barely-there) pride." } },
+      woman: { high: { title: "We see you. We stand with you.", subtitle: "This merch is your armor — wear it loud." }, low: { title: "Lucky you (sort of).", subtitle: "You've dodged some bullets. Here's merch for solidarity with those who haven't." } },
+      trans: { high: { title: "Your resilience is the real flex.", subtitle: "This collection is for your strength and unapologetic existence." }, low: { title: "Glad it's been easier for you.", subtitle: "Wear this to stand with those still fighting for basic respect." } }
+    };
 
-const allProducts = [];
-['man','woman','trans'].forEach(cat=>{
-  productCatalog[cat].forEach((p,idx)=>{
-    p.id = cat[0]+(idx+1);
-    p.category = cat;
-    allProducts.push(p);
-  });
-});
-const catLabel = { man:"For Him", woman:"For Her", trans:"For Them" };
+    const allProducts = [];
+    ['man', 'woman', 'trans'].forEach(cat => {
+      productCatalog[cat].forEach((p, idx) => {
+        p.id = cat[0] + (idx + 1);
+        p.category = cat;
+        allProducts.push(p);
+      });
+    });
+    const catLabel = { man: "For Him", woman: "For Her", trans: "For Them" };
 
-/* ===================== STORAGE HELPERS ===================== */
-const LS = {
-  get:(k,d)=>JSON.parse(localStorage.getItem(k) || JSON.stringify(d)),
-  set:(k,v)=>localStorage.setItem(k, JSON.stringify(v))
-};
-function getCart(){ return LS.get('am_cart', []); }
-function saveCart(c){ LS.set('am_cart', c); updateCounts(); }
-function getWishlist(){ return LS.get('am_wishlist', []); }
-function saveWishlist(w){ LS.set('am_wishlist', w); updateCounts(); }
-function getOrders(){ return LS.get('am_orders', []); }
-function saveOrders(o){ LS.set('am_orders', o); }
-function getUsers(){ return LS.get('am_users', {}); }
-function saveUsers(u){ LS.set('am_users', u); }
-function getCurrentUser(){ return LS.get('am_current_user', null); }
-function setCurrentUser(u){ LS.set('am_current_user', u); }
-function getProductById(id){ return allProducts.find(p=>p.id===id); }
+    /* ===================== STORAGE HELPERS ===================== */
+    const LS = {
+      get: (k, d) => JSON.parse(localStorage.getItem(k) || JSON.stringify(d)),
+      set: (k, v) => localStorage.setItem(k, JSON.stringify(v))
+    };
+    function getCart() { return LS.get('am_cart', []); }
+    function saveCart(c) { LS.set('am_cart', c); updateCounts(); }
+    function getWishlist() { return LS.get('am_wishlist', []); }
+    function saveWishlist(w) { LS.set('am_wishlist', w); updateCounts(); }
+    function getOrders() { return LS.get('am_orders', []); }
+    function saveOrders(o) { LS.set('am_orders', o); }
+    function getUsers() { return LS.get('am_users', {}); }
+    function saveUsers(u) { LS.set('am_users', u); }
+    function getCurrentUser() { return LS.get('am_current_user', null); }
+    function setCurrentUser(u) { LS.set('am_current_user', u); }
+    function getProductById(id) { return allProducts.find(p => p.id === id); }
 
-function updateCounts(){
-  const cart = getCart();
-  const wish = getWishlist();
-  document.getElementById('cartCount').textContent = cart.reduce((s,i)=>s+i.qty,0);
-  document.getElementById('wishCount').textContent = wish.length;
+    function updateCounts() {
+      const cart = getCart();
+      const wish = getWishlist();
+      document.getElementById('cartCount').textContent = cart.reduce((s, i) => s + i.qty, 0);
+      document.getElementById('wishCount').textContent = wish.length;
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    /* ===================== PRE-STORE SCREEN NAV ===================== */
+    function goToScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+    function skipToShop() { sessionStorage.removeItem('am_quiz'); enterStore('home'); }
+
+    let currentGender = '', currentQIndex = 0, answers = [];
+    function resetQuizState() { currentGender = ''; currentQIndex = 0; answers = []; }
+    function retakeQuiz() {
+      resetQuizState();
+      document.getElementById('appShell').style.display = 'none';
+      goToScreen('gender-select');
+    }
+
+    function selectGender(g) {
+      currentGender = g; currentQIndex = 0; answers = [];
+      goToScreen('quiz'); renderQuestion();
+    }
+    function renderQuestion() {
+      const qs = questionSets[currentGender];
+      const q = qs[currentQIndex];
+      document.getElementById('quizCounter').textContent = `QUESTION ${currentQIndex + 1} OF ${qs.length}`;
+      document.getElementById('quizQuestion').textContent = q.q;
+      document.getElementById('progressBar').style.width = (currentQIndex / qs.length * 100) + '%';
+      const opts = document.getElementById('quizOptions');
+      opts.innerHTML = '';
+      q.options.forEach(o => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-option' + (o.problematic ? ' problematic' : '');
+        btn.textContent = o.text;
+        btn.onclick = () => selectAnswer(o.problematic);
+        opts.appendChild(btn);
+      });
+    }
+    function selectAnswer(isProblematic) {
+      answers.push(isProblematic);
+      currentQIndex++;
+      const qs = questionSets[currentGender];
+      if (currentQIndex < qs.length) { renderQuestion(); }
+      else {
+        document.getElementById('progressBar').style.width = '100%';
+        setTimeout(() => {
+          const score = answers.filter(a => a).length;
+          sessionStorage.setItem('am_quiz', JSON.stringify({ gender: currentGender, answers, score, total: answers.length }));
+          enterStore('results');
+        }, 300);
+      }
+    }
+
+    /* ===================== APP SHELL NAV ===================== */
+    let currentPage = 'home';
+    function enterStore(startPage) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('appShell').style.display = 'block';
+      updateCounts();
+      showPage(startPage);
+    }
+    function showPage(id) {
+      // 🔒 Block admin page unless unlocked via /admin or #admin route
+      if (id === 'admin' && sessionStorage.getItem('am_admin_unlocked') !== 'true') {
+        id = 'home';
+      }
+
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + id).classList.add('active');
+      currentPage = id;
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + id).classList.add('active');
+      currentPage = id;
+      document.querySelectorAll('[data-page]').forEach(a=>a.classList.remove('active'));
+document.querySelectorAll(`[data-page="${id}"]`).forEach(a=>a.classList.add('active'));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (id === 'results') renderResults();
+      if (id === 'home') renderHome();
+      if (id === 'shop') renderShop();
+      if (id === 'wishlist') renderWishlist();
+      if (id === 'cart') renderCart();
+      if (id === 'account') renderAccount();
+      if (id === 'admin') renderAdmin();
+      if (id === 'checkout') prefillCheckout();
+    }
+    function goShopWithFilter(cat) { showPage('shop'); filterCategory(cat); }
+
+    /* ===================== MOBILE MENU ===================== */
+function toggleMobileMenu(){
+  document.getElementById('mobileMenuOverlay').classList.add('active');
+}
+function closeMobileMenu(){
+  document.getElementById('mobileMenuOverlay').classList.remove('active');
+}
+function navigateMobile(page){
+  showPage(page);
+  closeMobileMenu();
 }
 
-function showToast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2500);
-}
+    /* ===================== QUIZ RESULTS PAGE ===================== */
+    function renderResults() {
+      const quiz = JSON.parse(sessionStorage.getItem('am_quiz') || 'null');
+      if (!quiz) { showPage('home'); return; }
+      const isHigh = quiz.score >= 3;
+      const copy = resultsCopy[quiz.gender][isHigh ? 'high' : 'low'];
+      document.getElementById('resultsTitle').textContent = copy.title;
+      document.getElementById('resultsSubtitle').textContent = copy.subtitle;
+      document.getElementById('scoreBadge').textContent = `${quiz.score}/${quiz.total} FLAGS RAISED`;
 
-/* ===================== PRE-STORE SCREEN NAV ===================== */
-function goToScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo(0,0);
-}
-function skipToShop(){ sessionStorage.removeItem('am_quiz'); enterStore('home'); }
+      let recs = productCatalog[quiz.gender].filter((p, idx) => quiz.answers[idx]);
+      if (recs.length === 0) recs = productCatalog[quiz.gender];
+      document.getElementById('quizProductsGrid').innerHTML = recs.map(buildProductCard).join('');
+    }
 
-let currentGender='', currentQIndex=0, answers=[];
-function resetQuizState(){ currentGender=''; currentQIndex=0; answers=[]; }
-function retakeQuiz(){
-  resetQuizState();
-  document.getElementById('appShell').style.display='none';
-  goToScreen('gender-select');
-}
-
-function selectGender(g){
-  currentGender=g; currentQIndex=0; answers=[];
-  goToScreen('quiz'); renderQuestion();
-}
-function renderQuestion(){
-  const qs = questionSets[currentGender];
-  const q = qs[currentQIndex];
-  document.getElementById('quizCounter').textContent = `QUESTION ${currentQIndex+1} OF ${qs.length}`;
-  document.getElementById('quizQuestion').textContent = q.q;
-  document.getElementById('progressBar').style.width = (currentQIndex/qs.length*100)+'%';
-  const opts = document.getElementById('quizOptions');
-  opts.innerHTML = '';
-  q.options.forEach(o=>{
-    const btn = document.createElement('button');
-    btn.className = 'quiz-option' + (o.problematic?' problematic':'');
-    btn.textContent = o.text;
-    btn.onclick = ()=>selectAnswer(o.problematic);
-    opts.appendChild(btn);
-  });
-}
-function selectAnswer(isProblematic){
-  answers.push(isProblematic);
-  currentQIndex++;
-  const qs = questionSets[currentGender];
-  if(currentQIndex < qs.length){ renderQuestion(); }
-  else {
-    document.getElementById('progressBar').style.width='100%';
-    setTimeout(()=>{
-      const score = answers.filter(a=>a).length;
-      sessionStorage.setItem('am_quiz', JSON.stringify({gender:currentGender, answers, score, total:answers.length}));
-      enterStore('results');
-    },300);
-  }
-}
-
-/* ===================== APP SHELL NAV ===================== */
-let currentPage = 'home';
-function enterStore(startPage){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('appShell').style.display='block';
-  updateCounts();
-  showPage(startPage);
-}
-function showPage(id){
-    // 🔒 Block admin page unless unlocked via /admin or #admin route
-  if(id === 'admin' && sessionStorage.getItem('am_admin_unlocked') !== 'true'){
-    id = 'home';
-  }
-
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
-  currentPage = id;
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
-  currentPage = id;
-  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
-  const link = document.querySelector(`.nav-links a[data-page="${id}"]`);
-  if(link) link.classList.add('active');
-  window.scrollTo({top:0, behavior:'smooth'});
-
-  if(id==='results') renderResults();
-  if(id==='home') renderHome();
-  if(id==='shop') renderShop();
-  if(id==='wishlist') renderWishlist();
-  if(id==='cart') renderCart();
-  if(id==='account') renderAccount();
-  if(id==='admin') renderAdmin();
-  if(id==='checkout') prefillCheckout();
-}
-function goShopWithFilter(cat){ showPage('shop'); filterCategory(cat); }
-
-/* ===================== QUIZ RESULTS PAGE ===================== */
-function renderResults(){
-  const quiz = JSON.parse(sessionStorage.getItem('am_quiz') || 'null');
-  if(!quiz){ showPage('home'); return; }
-  const isHigh = quiz.score >= 3;
-  const copy = resultsCopy[quiz.gender][isHigh?'high':'low'];
-  document.getElementById('resultsTitle').textContent = copy.title;
-  document.getElementById('resultsSubtitle').textContent = copy.subtitle;
-  document.getElementById('scoreBadge').textContent = `${quiz.score}/${quiz.total} FLAGS RAISED`;
-
-  let recs = productCatalog[quiz.gender].filter((p,idx)=>quiz.answers[idx]);
-  if(recs.length===0) recs = productCatalog[quiz.gender];
-  document.getElementById('quizProductsGrid').innerHTML = recs.map(buildProductCard).join('');
-}
-
-/* ===================== PRODUCT CARD BUILDER ===================== */
-function buildProductCard(p){
-  const wish = getWishlist();
-  const isWished = wish.includes(p.id);
-  return `
+    /* ===================== PRODUCT CARD BUILDER ===================== */
+    function buildProductCard(p) {
+      const wish = getWishlist();
+      const isWished = wish.includes(p.id);
+      return `
     <div class="product-card">
-      <button class="wish-btn ${isWished?'active':''}" onclick="toggleWishlist('${p.id}')">${isWished?'♥':'♡'}</button>
+      <button class="wish-btn ${isWished ? 'active' : ''}" onclick="toggleWishlist('${p.id}')">${isWished ? '♥' : '♡'}</button>
       <div class="product-image" data-cat="${catLabel[p.category]}">
         <div class="product-mockup">${p.name}</div>
       </div>
@@ -731,102 +1597,103 @@ function buildProductCard(p){
         </div>
       </div>
     </div>`;
-}
+    }
 
-/* ===================== HOME ===================== */
-function renderHome(){
-  const quiz = JSON.parse(sessionStorage.getItem('am_quiz') || 'null');
-  let recs;
-  if(quiz){
-    recs = productCatalog[quiz.gender].filter((p,idx)=>quiz.answers[idx]);
-    if(recs.length===0) recs = productCatalog[quiz.gender];
-  } else {
-    recs = allProducts.slice(0,4);
-  }
-  document.getElementById('homeRecGrid').innerHTML = recs.map(buildProductCard).join('');
-}
+    /* ===================== HOME ===================== */
+    function renderHome() {
+      const quiz = JSON.parse(sessionStorage.getItem('am_quiz') || 'null');
+      let recs;
+      if (quiz) {
+        recs = productCatalog[quiz.gender].filter((p, idx) => quiz.answers[idx]);
+        if (recs.length === 0) recs = productCatalog[quiz.gender];
+      } else {
+        recs = allProducts.slice(0, 4);
+      }
+      document.getElementById('homeRecGrid').innerHTML = recs.map(buildProductCard).join('');
+    }
 
-/* ===================== SHOP ===================== */
-let activeCategory = 'all';
-let activeSearch = '';
-function filterCategory(cat){
-  activeCategory = cat;
-  document.querySelectorAll('.filter-tab').forEach(t=>t.classList.toggle('active', t.dataset.cat===cat));
-  renderShop();
-}
-function handleSearch(val){
+    /* ===================== SHOP ===================== */
+    let activeCategory = 'all';
+    let activeSearch = '';
+    function filterCategory(cat) {
+      activeCategory = cat;
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.toggle('active', t.dataset.cat === cat));
+      renderShop();
+    }
+    function handleSearch(val){
   activeSearch = val;
+  document.querySelectorAll('.search-input').forEach(inp => inp.value = val);
   if(currentPage !== 'shop') showPage('shop'); else renderShop();
 }
-function renderShop(){
-  document.getElementById('searchInput').value = activeSearch;
-  const list = allProducts.filter(p =>
-    (activeCategory==='all' || p.category===activeCategory) &&
-    p.name.toLowerCase().includes(activeSearch.toLowerCase())
-  );
-  const grid = document.getElementById('shopGrid');
-  grid.innerHTML = list.length ? list.map(buildProductCard).join('') : `<div class="empty-state">No tees match that search. Try something else (or examine why you searched that).</div>`;
-}
+  function renderShop(){
+  document.querySelectorAll('.search-input').forEach(inp => inp.value = activeSearch);
+      const list = allProducts.filter(p =>
+        (activeCategory === 'all' || p.category === activeCategory) &&
+        p.name.toLowerCase().includes(activeSearch.toLowerCase())
+      );
+      const grid = document.getElementById('shopGrid');
+      grid.innerHTML = list.length ? list.map(buildProductCard).join('') : `<div class="empty-state">No tees match that search. Try something else (or examine why you searched that).</div>`;
+    }
 
-/* ===================== WISHLIST ===================== */
-function toggleWishlist(id){
-  let w = getWishlist();
-  if(w.includes(id)){ w = w.filter(x=>x!==id); showToast('Removed from wishlist'); }
-  else { w.push(id); showToast('Added to wishlist ♥'); }
-  saveWishlist(w);
-  rerenderCurrent();
-}
-function renderWishlist(){
-  const w = getWishlist();
-  const grid = document.getElementById('wishlistGrid');
-  if(!w.length){ grid.innerHTML = `<div class="empty-state">Your wishlist is as empty as his excuses. <br><a style="text-decoration:underline;color:var(--red);" onclick="showPage('shop')">Go shop →</a></div>`; return; }
-  grid.innerHTML = w.map(id=>buildProductCard(getProductById(id))).join('');
-}
-function rerenderCurrent(){
-  if(currentPage==='results') renderResults();
-  if(currentPage==='home') renderHome();
-  if(currentPage==='shop') renderShop();
-  if(currentPage==='wishlist') renderWishlist();
-}
+    /* ===================== WISHLIST ===================== */
+    function toggleWishlist(id) {
+      let w = getWishlist();
+      if (w.includes(id)) { w = w.filter(x => x !== id); showToast('Removed from wishlist'); }
+      else { w.push(id); showToast('Added to wishlist ♥'); }
+      saveWishlist(w);
+      rerenderCurrent();
+    }
+    function renderWishlist() {
+      const w = getWishlist();
+      const grid = document.getElementById('wishlistGrid');
+      if (!w.length) { grid.innerHTML = `<div class="empty-state">Your wishlist is as empty as his excuses. <br><a style="text-decoration:underline;color:var(--red);" onclick="showPage('shop')">Go shop →</a></div>`; return; }
+      grid.innerHTML = w.map(id => buildProductCard(getProductById(id))).join('');
+    }
+    function rerenderCurrent() {
+      if (currentPage === 'results') renderResults();
+      if (currentPage === 'home') renderHome();
+      if (currentPage === 'shop') renderShop();
+      if (currentPage === 'wishlist') renderWishlist();
+    }
 
-/* ===================== CART ===================== */
-function addToCart(id){
-  let cart = getCart();
-  const existing = cart.find(i=>i.id===id);
-  if(existing) existing.qty++;
-  else cart.push({id, qty:1});
-  saveCart(cart);
-  showToast('Added to cart. Patriarchy: crying. 🔥');
-}
-function changeQty(id, delta){
-  let cart = getCart();
-  const item = cart.find(i=>i.id===id);
-  if(!item) return;
-  item.qty += delta;
-  if(item.qty <= 0) cart = cart.filter(i=>i.id!==id);
-  saveCart(cart);
-  renderCart();
-}
-function removeFromCart(id){
-  saveCart(getCart().filter(i=>i.id!==id));
-  renderCart();
-  showToast('Removed from cart');
-}
-function renderCart(){
-  const cart = getCart();
-  const container = document.getElementById('cartItems');
-  const summary = document.getElementById('cartSummary');
-  if(!cart.length){
-    container.innerHTML = `<div class="empty-state">Your cart is empty. Unlike his sense of entitlement.<br><a style="text-decoration:underline;color:var(--red);" onclick="showPage('shop')">Go shop →</a></div>`;
-    summary.style.display='none';
-    return;
-  }
-  let total = 0;
-  container.innerHTML = cart.map(item=>{
-    const p = getProductById(item.id);
-    const lineTotal = p.price * item.qty;
-    total += lineTotal;
-    return `
+    /* ===================== CART ===================== */
+    function addToCart(id) {
+      let cart = getCart();
+      const existing = cart.find(i => i.id === id);
+      if (existing) existing.qty++;
+      else cart.push({ id, qty: 1 });
+      saveCart(cart);
+      showToast('Added to cart. Patriarchy: crying. 🔥');
+    }
+    function changeQty(id, delta) {
+      let cart = getCart();
+      const item = cart.find(i => i.id === id);
+      if (!item) return;
+      item.qty += delta;
+      if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+      saveCart(cart);
+      renderCart();
+    }
+    function removeFromCart(id) {
+      saveCart(getCart().filter(i => i.id !== id));
+      renderCart();
+      showToast('Removed from cart');
+    }
+    function renderCart() {
+      const cart = getCart();
+      const container = document.getElementById('cartItems');
+      const summary = document.getElementById('cartSummary');
+      if (!cart.length) {
+        container.innerHTML = `<div class="empty-state">Your cart is empty. Unlike his sense of entitlement.<br><a style="text-decoration:underline;color:var(--red);" onclick="showPage('shop')">Go shop →</a></div>`;
+        summary.style.display = 'none';
+        return;
+      }
+      let total = 0;
+      container.innerHTML = cart.map(item => {
+        const p = getProductById(item.id);
+        const lineTotal = p.price * item.qty;
+        total += lineTotal;
+        return `
       <div class="cart-row">
         <div class="thumb">${p.name}</div>
         <div class="info">
@@ -841,178 +1708,178 @@ function renderCart(){
         <div style="font-family:'Archivo Black',sans-serif;">₹${lineTotal}</div>
         <a class="remove-link" onclick="removeFromCart('${p.id}')">Remove</a>
       </div>`;
-  }).join('');
-  document.getElementById('cartTotalAmt').textContent = total;
-  summary.style.display='flex';
-}
+      }).join('');
+      document.getElementById('cartTotalAmt').textContent = total;
+      summary.style.display = 'flex';
+    }
 
-/* ===================== LOGIN / OTP ===================== */
-let pendingAction = null;
-function requireLogin(callback){
-  if(getCurrentUser()){ callback(); }
-  else { pendingAction = callback; openLoginModal(); }
-}
-function openLoginModal(){
-  document.getElementById('loginModal').classList.add('active');
-  document.getElementById('loginStepPhone').style.display='block';
-  document.getElementById('loginStepOtp').style.display='none';
-}
-function closeLoginModal(){ document.getElementById('loginModal').classList.remove('active'); pendingAction=null; }
+    /* ===================== LOGIN / OTP ===================== */
+    let pendingAction = null;
+    function requireLogin(callback) {
+      if (getCurrentUser()) { callback(); }
+      else { pendingAction = callback; openLoginModal(); }
+    }
+    function openLoginModal() {
+      document.getElementById('loginModal').classList.add('active');
+      document.getElementById('loginStepPhone').style.display = 'block';
+      document.getElementById('loginStepOtp').style.display = 'none';
+    }
+    function closeLoginModal() { document.getElementById('loginModal').classList.remove('active'); pendingAction = null; }
 
-function sendOtp(){
-  const phone = document.getElementById('loginPhone').value.trim();
-  if(!/^\d{10}$/.test(phone)){ alert('Enter a valid 10-digit mobile number.'); return; }
-  const code = Math.floor(1000 + Math.random()*9000).toString();
-  sessionStorage.setItem('am_otp', JSON.stringify({phone, code}));
-  document.getElementById('loginStepPhone').style.display='none';
-  document.getElementById('loginStepOtp').style.display='block';
-  document.getElementById('otpHintText').textContent = `DEMO MODE — your OTP is ${code} (no real SMS gateway connected)`;
-}
-function verifyOtp(){
-  const entered = document.getElementById('loginOtp').value.trim();
-  const saved = JSON.parse(sessionStorage.getItem('am_otp') || 'null');
-  if(!saved || entered !== saved.code){ alert('Incorrect OTP. Try again.'); return; }
+    function sendOtp() {
+      const phone = document.getElementById('loginPhone').value.trim();
+      if (!/^\d{10}$/.test(phone)) { alert('Enter a valid 10-digit mobile number.'); return; }
+      const code = Math.floor(1000 + Math.random() * 9000).toString();
+      sessionStorage.setItem('am_otp', JSON.stringify({ phone, code }));
+      document.getElementById('loginStepPhone').style.display = 'none';
+      document.getElementById('loginStepOtp').style.display = 'block';
+      document.getElementById('otpHintText').textContent = `DEMO MODE — your OTP is ${code} (no real SMS gateway connected)`;
+    }
+    function verifyOtp() {
+      const entered = document.getElementById('loginOtp').value.trim();
+      const saved = JSON.parse(sessionStorage.getItem('am_otp') || 'null');
+      if (!saved || entered !== saved.code) { alert('Incorrect OTP. Try again.'); return; }
 
-  let users = getUsers();
-  const phone = saved.phone;
-  if(!users[phone]) users[phone] = { phone, name:'' };
-  saveUsers(users);
-  setCurrentUser(users[phone]);
+      let users = getUsers();
+      const phone = saved.phone;
+      if (!users[phone]) users[phone] = { phone, name: '' };
+      saveUsers(users);
+      setCurrentUser(users[phone]);
 
-  closeLoginModal();
-  showToast('Logged in successfully ✓');
-  if(pendingAction){ pendingAction(); pendingAction=null; }
-}
-function logout(){
-  setCurrentUser(null);
-  showToast('Logged out');
-  renderAccount();
-}
+      closeLoginModal();
+      showToast('Logged in successfully ✓');
+      if (pendingAction) { pendingAction(); pendingAction = null; }
+    }
+    function logout() {
+      setCurrentUser(null);
+      showToast('Logged out');
+      renderAccount();
+    }
 
-/* ===================== CHECKOUT ===================== */
-function goToCheckout(){
-  requireLogin(()=> showPage('checkout'));
-}
-function prefillCheckout(){
-  const user = getCurrentUser();
-  document.getElementById('coName').value = user?.name || '';
-  document.getElementById('coPhone').value = user?.phone || '';
+    /* ===================== CHECKOUT ===================== */
+    function goToCheckout() {
+      requireLogin(() => showPage('checkout'));
+    }
+    function prefillCheckout() {
+      const user = getCurrentUser();
+      document.getElementById('coName').value = user?.name || '';
+      document.getElementById('coPhone').value = user?.phone || '';
 
-  const cart = getCart();
-  let total = 0;
-  document.getElementById('checkoutSummaryItems').innerHTML = cart.map(item=>{
-    const p = getProductById(item.id);
-    const lineTotal = p.price*item.qty;
-    total += lineTotal;
-    return `<div class="summary-row"><span>${p.name} ×${item.qty}</span><span>₹${lineTotal}</span></div>`;
-  }).join('');
-  document.getElementById('checkoutTotal').textContent = total;
-}
-function placeOrder(){
-  const name = document.getElementById('coName').value.trim();
-  const phone = document.getElementById('coPhone').value.trim();
-  const address = document.getElementById('coAddress').value.trim();
-  const city = document.getElementById('coCity').value.trim();
-  const state = document.getElementById('coState').value.trim();
-  const pincode = document.getElementById('coPincode').value.trim();
-  const payment = document.querySelector('input[name="payment"]:checked').value;
+      const cart = getCart();
+      let total = 0;
+      document.getElementById('checkoutSummaryItems').innerHTML = cart.map(item => {
+        const p = getProductById(item.id);
+        const lineTotal = p.price * item.qty;
+        total += lineTotal;
+        return `<div class="summary-row"><span>${p.name} ×${item.qty}</span><span>₹${lineTotal}</span></div>`;
+      }).join('');
+      document.getElementById('checkoutTotal').textContent = total;
+    }
+    function placeOrder() {
+      const name = document.getElementById('coName').value.trim();
+      const phone = document.getElementById('coPhone').value.trim();
+      const address = document.getElementById('coAddress').value.trim();
+      const city = document.getElementById('coCity').value.trim();
+      const state = document.getElementById('coState').value.trim();
+      const pincode = document.getElementById('coPincode').value.trim();
+      const payment = document.querySelector('input[name="payment"]:checked').value;
 
-  if(!name || !address || !city || !state || !/^\d{6}$/.test(pincode)){
-    alert('Please fill all fields correctly (pincode must be 6 digits).');
-    return;
-  }
-  const cart = getCart();
-  if(!cart.length){ alert('Your cart is empty.'); return; }
+      if (!name || !address || !city || !state || !/^\d{6}$/.test(pincode)) {
+        alert('Please fill all fields correctly (pincode must be 6 digits).');
+        return;
+      }
+      const cart = getCart();
+      if (!cart.length) { alert('Your cart is empty.'); return; }
 
-  const items = cart.map(i=>{
-    const p = getProductById(i.id);
-    return { id:p.id, name:p.name, qty:i.qty, price:p.price, lineTotal:p.price*i.qty };
-  });
-  const totalAmount = items.reduce((s,i)=>s+i.lineTotal, 0);
-  const quiz = JSON.parse(sessionStorage.getItem('am_quiz') || 'null');
+      const items = cart.map(i => {
+        const p = getProductById(i.id);
+        return { id: p.id, name: p.name, qty: i.qty, price: p.price, lineTotal: p.price * i.qty };
+      });
+      const totalAmount = items.reduce((s, i) => s + i.lineTotal, 0);
+      const quiz = JSON.parse(sessionStorage.getItem('am_quiz') || 'null');
 
-  const order = {
-    orderId: 'AM' + Date.now().toString().slice(-8),
-    timestamp: new Date().toISOString(),
-    user: { name, phone },
-    address: { line1:address, city, state, pincode },
-    items, totalAmount, paymentMethod: payment,
-    quiz: quiz ? { gender:quiz.gender, score:quiz.score, total:quiz.total } : null
-  };
+      const order = {
+        orderId: 'AM' + Date.now().toString().slice(-8),
+        timestamp: new Date().toISOString(),
+        user: { name, phone },
+        address: { line1: address, city, state, pincode },
+        items, totalAmount, paymentMethod: payment,
+        quiz: quiz ? { gender: quiz.gender, score: quiz.score, total: quiz.total } : null
+      };
 
-  const orders = getOrders();
-  orders.push(order);
-  saveOrders(orders);
+      const orders = getOrders();
+      orders.push(order);
+      saveOrders(orders);
 
-  let users = getUsers();
-  users[phone] = { phone, name, quiz: order.quiz };
-  saveUsers(users);
-  setCurrentUser(users[phone]);
+      let users = getUsers();
+      users[phone] = { phone, name, quiz: order.quiz };
+      saveUsers(users);
+      setCurrentUser(users[phone]);
 
-  saveCart([]);
-  document.getElementById('successOrderId').textContent = order.orderId;
-  showPage('order-success');
-}
+      saveCart([]);
+      document.getElementById('successOrderId').textContent = order.orderId;
+      showPage('order-success');
+    }
 
-/* ===================== CAREERS / CONTACT FORMS ===================== */
-function submitCareerForm(e){
-  e.preventDefault();
-  const phone = document.getElementById('careerPhone').value.trim();
-  if(!/^\d{10}$/.test(phone)){ alert('Enter a valid 10-digit phone number.'); return; }
-  const entry = {
-    name: document.getElementById('careerName').value.trim(),
-    feminist: document.getElementById('careerFeminist').value,
-    email: document.getElementById('careerEmail').value.trim(),
-    phone,
-    location: document.getElementById('careerLocation').value.trim(),
-    timestamp: new Date().toISOString()
-  };
-  let apps = LS.get('am_career_apps', []);
-  apps.push(entry);
-  LS.set('am_career_apps', apps);
-  e.target.reset();
-  showToast("Application submitted! We'll be in touch.");
-}
-function submitContactForm(e){
-  e.preventDefault();
-  const phone = document.getElementById('contactPhone').value.trim();
-  if(!/^\d{10}$/.test(phone)){ alert('Enter a valid 10-digit phone number.'); return; }
-  const entry = {
-    name: document.getElementById('contactName').value.trim(),
-    feminist: document.getElementById('contactFeminist').value,
-    email: document.getElementById('contactEmail').value.trim(),
-    phone,
-    location: document.getElementById('contactLocation').value.trim(),
-    timestamp: new Date().toISOString()
-  };
-  let msgs = LS.get('am_contact_msgs', []);
-  msgs.push(entry);
-  LS.set('am_contact_msgs', msgs);
-  e.target.reset();
-  showToast("Message sent! We'll get back to you soon.");
-}
+    /* ===================== CAREERS / CONTACT FORMS ===================== */
+    function submitCareerForm(e) {
+      e.preventDefault();
+      const phone = document.getElementById('careerPhone').value.trim();
+      if (!/^\d{10}$/.test(phone)) { alert('Enter a valid 10-digit phone number.'); return; }
+      const entry = {
+        name: document.getElementById('careerName').value.trim(),
+        feminist: document.getElementById('careerFeminist').value,
+        email: document.getElementById('careerEmail').value.trim(),
+        phone,
+        location: document.getElementById('careerLocation').value.trim(),
+        timestamp: new Date().toISOString()
+      };
+      let apps = LS.get('am_career_apps', []);
+      apps.push(entry);
+      LS.set('am_career_apps', apps);
+      e.target.reset();
+      showToast("Application submitted! We'll be in touch.");
+    }
+    function submitContactForm(e) {
+      e.preventDefault();
+      const phone = document.getElementById('contactPhone').value.trim();
+      if (!/^\d{10}$/.test(phone)) { alert('Enter a valid 10-digit phone number.'); return; }
+      const entry = {
+        name: document.getElementById('contactName').value.trim(),
+        feminist: document.getElementById('contactFeminist').value,
+        email: document.getElementById('contactEmail').value.trim(),
+        phone,
+        location: document.getElementById('contactLocation').value.trim(),
+        timestamp: new Date().toISOString()
+      };
+      let msgs = LS.get('am_contact_msgs', []);
+      msgs.push(entry);
+      LS.set('am_contact_msgs', msgs);
+      e.target.reset();
+      showToast("Message sent! We'll get back to you soon.");
+    }
 
-/* ===================== ACCOUNT ===================== */
-function renderAccount(){
-  const user = getCurrentUser();
-  const container = document.getElementById('accountContent');
-  if(!user){
-    container.innerHTML = `
+    /* ===================== ACCOUNT ===================== */
+    function renderAccount() {
+      const user = getCurrentUser();
+      const container = document.getElementById('accountContent');
+      if (!user) {
+        container.innerHTML = `
       <div style="text-align:center; max-width:400px; margin:0 auto;">
         <p style="margin-bottom:1.5rem; opacity:.8;">You're not logged in yet.</p>
         <button class="cta-btn" onclick="openLoginModal()">Login / Signup</button>
       </div>`;
-    return;
-  }
-  const orders = getOrders().filter(o=>o.user.phone===user.phone).reverse();
-  let ordersHtml = orders.length ? orders.map(o=>`
+        return;
+      }
+      const orders = getOrders().filter(o => o.user.phone === user.phone).reverse();
+      let ordersHtml = orders.length ? orders.map(o => `
     <div class="order-card">
       <div class="oc-head"><span>${o.orderId}</span><span>₹${o.totalAmount}</span></div>
       <p style="opacity:.7; font-size:.85rem; margin-bottom:.5rem;">${new Date(o.timestamp).toLocaleString()}</p>
-      <p style="font-size:.9rem;">${o.items.map(i=>`${i.name} ×${i.qty}`).join(', ')}</p>
+      <p style="font-size:.9rem;">${o.items.map(i => `${i.name} ×${i.qty}`).join(', ')}</p>
     </div>`).join('') : `<p style="opacity:.6;">No orders yet. Time to change that.</p>`;
 
-  container.innerHTML = `
+      container.innerHTML = `
     <div style="max-width:600px; margin:0 auto;">
       <div class="order-card">
         <h3>${user.name || 'Hey there'}</h3>
@@ -1023,131 +1890,132 @@ function renderAccount(){
       <p class="section-label" style="margin-top:2rem;">Order History</p>
       ${ordersHtml}
     </div>`;
-}
+    }
 
-/* ===================== ADMIN / CSV EXPORTS ===================== */
-function renderAdmin(){
-  renderOrdersTable();
-  renderCareerTable();
-  renderContactTable();
-}
-function renderOrdersTable(){
-  const orders = getOrders();
-  const table = document.getElementById('adminTable');
-  if(!orders.length){ table.innerHTML = `<tr><td style="padding:2rem; text-align:center;">No orders placed yet.</td></tr>`; return; }
-  const header = `<tr><th>Order ID</th><th>Date</th><th>Customer</th><th>Phone</th><th>Items</th><th>Amount</th><th>Address</th><th>Payment</th><th>Quiz</th></tr>`;
-  const rows = orders.map(o=>`
+    /* ===================== ADMIN / CSV EXPORTS ===================== */
+    function renderAdmin() {
+      renderOrdersTable();
+      renderCareerTable();
+      renderContactTable();
+    }
+    function renderOrdersTable() {
+      const orders = getOrders();
+      const table = document.getElementById('adminTable');
+      if (!orders.length) { table.innerHTML = `<tr><td style="padding:2rem; text-align:center;">No orders placed yet.</td></tr>`; return; }
+      const header = `<tr><th>Order ID</th><th>Date</th><th>Customer</th><th>Phone</th><th>Items</th><th>Amount</th><th>Address</th><th>Payment</th><th>Quiz</th></tr>`;
+      const rows = orders.map(o => `
     <tr>
       <td>${o.orderId}</td><td>${new Date(o.timestamp).toLocaleDateString()}</td>
       <td>${o.user.name}</td><td>${o.user.phone}</td>
-      <td>${o.items.map(i=>`${i.name} ×${i.qty}`).join(', ')}</td>
+      <td>${o.items.map(i => `${i.name} ×${i.qty}`).join(', ')}</td>
       <td>₹${o.totalAmount}</td>
       <td>${o.address.line1}, ${o.address.city}, ${o.address.state} - ${o.address.pincode}</td>
       <td>${o.paymentMethod}</td>
       <td>${o.quiz ? `${o.quiz.gender} (${o.quiz.score}/${o.quiz.total})` : 'N/A'}</td>
     </tr>`).join('');
-  table.innerHTML = header + rows;
-}
-function renderCareerTable(){
-  const apps = LS.get('am_career_apps', []);
-  const table = document.getElementById('careerTable');
-  if(!apps.length){ table.innerHTML = `<tr><td style="padding:2rem; text-align:center;">No applications yet.</td></tr>`; return; }
-  const header = `<tr><th>Date</th><th>Name</th><th>Feminist?</th><th>Email</th><th>Phone</th><th>Location</th></tr>`;
-  const rows = apps.map(a=>`
-    <tr><td>${new Date(a.timestamp).toLocaleDateString()}</td><td>${a.name}</td><td>${a.feminist}</td><td>${a.email}</td><td>${a.phone}</td><td>${a.location}</td></tr>`).join('');
-  table.innerHTML = header + rows;
-}
-function renderContactTable(){
-  const msgs = LS.get('am_contact_msgs', []);
-  const table = document.getElementById('contactTable');
-  if(!msgs.length){ table.innerHTML = `<tr><td style="padding:2rem; text-align:center;">No messages yet.</td></tr>`; return; }
-  const header = `<tr><th>Date</th><th>Name</th><th>Feminist?</th><th>Email</th><th>Phone</th><th>Location</th></tr>`;
-  const rows = msgs.map(m=>`
-    <tr><td>${new Date(m.timestamp).toLocaleDateString()}</td><td>${m.name}</td><td>${m.feminist}</td><td>${m.email}</td><td>${m.phone}</td><td>${m.location}</td></tr>`).join('');
-  table.innerHTML = header + rows;
-}
-
-function downloadCSV(filename, header, rows){
-  const csv = [header, ...rows].map(r=>r.map(f=>`"${String(f).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = filename; a.click();
-  URL.revokeObjectURL(url);
-}
-function exportOrdersCSV(){
-  const orders = getOrders();
-  if(!orders.length){ alert('No orders yet.'); return; }
-  const header = ['Order ID','Date','Customer Name','Phone','Items','Total Amount','Address','City','State','Pincode','Payment Method','Quiz Gender','Quiz Score'];
-  const rows = orders.map(o=>[
-    o.orderId, new Date(o.timestamp).toLocaleString(), o.user.name, o.user.phone,
-    o.items.map(i=>`${i.name} x${i.qty}`).join('; '), o.totalAmount,
-    o.address.line1, o.address.city, o.address.state, o.address.pincode,
-    o.paymentMethod, o.quiz ? o.quiz.gender : 'N/A', o.quiz ? `${o.quiz.score}/${o.quiz.total}` : 'N/A'
-  ]);
-  downloadCSV('abhla_mard_orders.csv', header, rows);
-}
-function exportCareerCSV(){
-  const apps = LS.get('am_career_apps', []);
-  if(!apps.length){ alert('No applications yet.'); return; }
-  const header = ['Date','Name','Feminist?','Email','Phone','Location'];
-  const rows = apps.map(a=>[new Date(a.timestamp).toLocaleString(), a.name, a.feminist, a.email, a.phone, a.location]);
-  downloadCSV('abhla_mard_career_applications.csv', header, rows);
-}
-function exportContactCSV(){
-  const msgs = LS.get('am_contact_msgs', []);
-  if(!msgs.length){ alert('No messages yet.'); return; }
-  const header = ['Date','Name','Feminist?','Email','Phone','Location'];
-  const rows = msgs.map(m=>[new Date(m.timestamp).toLocaleString(), m.name, m.feminist, m.email, m.phone, m.location]);
-  downloadCSV('abhla_mard_contact_messages.csv', header, rows);
-}
-
-/* ===================== ADMIN ROUTE PROTECTION ===================== */
-const ADMIN_PASSWORD = 'dosuttaekchaimardjaathaayhaay'; // 🔒 change this to your own secret password
-
-function checkAdminRoute(){
-  const path = window.location.pathname.toLowerCase();
-  const hash = window.location.hash.toLowerCase().trim();
-  const isAdminRoute = path.endsWith('/admin') || path.endsWith('/admin/') || hash === '#admin' || hash === '#/admin';
-
-  if(isAdminRoute){
-    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-    if(sessionStorage.getItem('am_admin_unlocked') === 'true'){
-      enterStore('admin');
-    } else {
-      document.getElementById('adminGateModal').classList.add('active');
+      table.innerHTML = header + rows;
     }
-  } else {
-    // If hash is cleared/changed away from #admin, close the gate modal if open
-    document.getElementById('adminGateModal').classList.remove('active');
-  }
-}
+    function renderCareerTable() {
+      const apps = LS.get('am_career_apps', []);
+      const table = document.getElementById('careerTable');
+      if (!apps.length) { table.innerHTML = `<tr><td style="padding:2rem; text-align:center;">No applications yet.</td></tr>`; return; }
+      const header = `<tr><th>Date</th><th>Name</th><th>Feminist?</th><th>Email</th><th>Phone</th><th>Location</th></tr>`;
+      const rows = apps.map(a => `
+    <tr><td>${new Date(a.timestamp).toLocaleDateString()}</td><td>${a.name}</td><td>${a.feminist}</td><td>${a.email}</td><td>${a.phone}</td><td>${a.location}</td></tr>`).join('');
+      table.innerHTML = header + rows;
+    }
+    function renderContactTable() {
+      const msgs = LS.get('am_contact_msgs', []);
+      const table = document.getElementById('contactTable');
+      if (!msgs.length) { table.innerHTML = `<tr><td style="padding:2rem; text-align:center;">No messages yet.</td></tr>`; return; }
+      const header = `<tr><th>Date</th><th>Name</th><th>Feminist?</th><th>Email</th><th>Phone</th><th>Location</th></tr>`;
+      const rows = msgs.map(m => `
+    <tr><td>${new Date(m.timestamp).toLocaleDateString()}</td><td>${m.name}</td><td>${m.feminist}</td><td>${m.email}</td><td>${m.phone}</td><td>${m.location}</td></tr>`).join('');
+      table.innerHTML = header + rows;
+    }
 
-function verifyAdminPassword(){
-  const entered = document.getElementById('adminPassInput').value;
-  if(entered === ADMIN_PASSWORD){
-    sessionStorage.setItem('am_admin_unlocked', 'true');
-    document.getElementById('adminGateModal').classList.remove('active');
-    enterStore('admin');
-  } else {
-    alert('Incorrect password.');
-  }
-}
+    function downloadCSV(filename, header, rows) {
+      const csv = [header, ...rows].map(r => r.map(f => `"${String(f).replace(/"/g, '""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; a.click();
+      URL.revokeObjectURL(url);
+    }
+    function exportOrdersCSV() {
+      const orders = getOrders();
+      if (!orders.length) { alert('No orders yet.'); return; }
+      const header = ['Order ID', 'Date', 'Customer Name', 'Phone', 'Items', 'Total Amount', 'Address', 'City', 'State', 'Pincode', 'Payment Method', 'Quiz Gender', 'Quiz Score'];
+      const rows = orders.map(o => [
+        o.orderId, new Date(o.timestamp).toLocaleString(), o.user.name, o.user.phone,
+        o.items.map(i => `${i.name} x${i.qty}`).join('; '), o.totalAmount,
+        o.address.line1, o.address.city, o.address.state, o.address.pincode,
+        o.paymentMethod, o.quiz ? o.quiz.gender : 'N/A', o.quiz ? `${o.quiz.score}/${o.quiz.total}` : 'N/A'
+      ]);
+      downloadCSV('abhla_mard_orders.csv', header, rows);
+    }
+    function exportCareerCSV() {
+      const apps = LS.get('am_career_apps', []);
+      if (!apps.length) { alert('No applications yet.'); return; }
+      const header = ['Date', 'Name', 'Feminist?', 'Email', 'Phone', 'Location'];
+      const rows = apps.map(a => [new Date(a.timestamp).toLocaleString(), a.name, a.feminist, a.email, a.phone, a.location]);
+      downloadCSV('abhla_mard_career_applications.csv', header, rows);
+    }
+    function exportContactCSV() {
+      const msgs = LS.get('am_contact_msgs', []);
+      if (!msgs.length) { alert('No messages yet.'); return; }
+      const header = ['Date', 'Name', 'Feminist?', 'Email', 'Phone', 'Location'];
+      const rows = msgs.map(m => [new Date(m.timestamp).toLocaleString(), m.name, m.feminist, m.email, m.phone, m.location]);
+      downloadCSV('abhla_mard_contact_messages.csv', header, rows);
+    }
 
-function exitAdminGate(){
-  window.location.hash = '';
-  document.getElementById('adminGateModal').classList.remove('active');
-  sessionStorage.removeItem('am_admin_unlocked');
-  enterStore('home');
-}
+    /* ===================== ADMIN ROUTE PROTECTION ===================== */
+    const ADMIN_PASSWORD = 'dosuttaekchaimardjaathaayhaay'; // 🔒 change this to your own secret password
 
-// 🔑 THE ACTUAL FIX — listen for hash changes AND back/forward navigation
-window.addEventListener('hashchange', checkAdminRoute);
-window.addEventListener('popstate', checkAdminRoute);
+    function checkAdminRoute() {
+      const path = window.location.pathname.toLowerCase();
+      const hash = window.location.hash.toLowerCase().trim();
+      const isAdminRoute = path.endsWith('/admin') || path.endsWith('/admin/') || hash === '#admin' || hash === '#/admin';
 
-/* ===================== INIT ===================== */
-updateCounts();
-checkAdminRoute();
-</script>
+      if (isAdminRoute) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        if (sessionStorage.getItem('am_admin_unlocked') === 'true') {
+          enterStore('admin');
+        } else {
+          document.getElementById('adminGateModal').classList.add('active');
+        }
+      } else {
+        // If hash is cleared/changed away from #admin, close the gate modal if open
+        document.getElementById('adminGateModal').classList.remove('active');
+      }
+    }
+
+    function verifyAdminPassword() {
+      const entered = document.getElementById('adminPassInput').value;
+      if (entered === ADMIN_PASSWORD) {
+        sessionStorage.setItem('am_admin_unlocked', 'true');
+        document.getElementById('adminGateModal').classList.remove('active');
+        enterStore('admin');
+      } else {
+        alert('Incorrect password.');
+      }
+    }
+
+    function exitAdminGate() {
+      window.location.hash = '';
+      document.getElementById('adminGateModal').classList.remove('active');
+      sessionStorage.removeItem('am_admin_unlocked');
+      enterStore('home');
+    }
+
+    // 🔑 THE ACTUAL FIX — listen for hash changes AND back/forward navigation
+    window.addEventListener('hashchange', checkAdminRoute);
+    window.addEventListener('popstate', checkAdminRoute);
+
+    /* ===================== INIT ===================== */
+    updateCounts();
+    checkAdminRoute();
+  </script>
 </body>
+
 </html>
