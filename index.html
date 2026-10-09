@@ -511,7 +511,7 @@
       <input type="password" id="adminPassInput" placeholder="Enter password" onkeydown="if(event.key==='Enter') verifyAdminPassword()">
     </div>
     <button class="cta-btn" style="width:100%;" onclick="verifyAdminPassword()">Unlock</button>
-    <a class="ghost-link" onclick="window.location.href='/'">← Back to site</a>
+    <a class="ghost-link" onclick="exitAdminGate()">← Back to site</a>
   </div>
 </div>
 
@@ -1107,17 +1107,19 @@ const ADMIN_PASSWORD = 'dosuttaekchaimardjaathaayhaay'; // 🔒 change this to y
 
 function checkAdminRoute(){
   const path = window.location.pathname.toLowerCase();
-  const hash = window.location.hash.toLowerCase();
+  const hash = window.location.hash.toLowerCase().trim();
   const isAdminRoute = path.endsWith('/admin') || path.endsWith('/admin/') || hash === '#admin' || hash === '#/admin';
 
   if(isAdminRoute){
-    // Hide intro/quiz screens — go straight to gate
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     if(sessionStorage.getItem('am_admin_unlocked') === 'true'){
       enterStore('admin');
     } else {
       document.getElementById('adminGateModal').classList.add('active');
     }
+  } else {
+    // If hash is cleared/changed away from #admin, close the gate modal if open
+    document.getElementById('adminGateModal').classList.remove('active');
   }
 }
 
@@ -1131,6 +1133,17 @@ function verifyAdminPassword(){
     alert('Incorrect password.');
   }
 }
+
+function exitAdminGate(){
+  window.location.hash = '';
+  document.getElementById('adminGateModal').classList.remove('active');
+  sessionStorage.removeItem('am_admin_unlocked');
+  enterStore('home');
+}
+
+// 🔑 THE ACTUAL FIX — listen for hash changes AND back/forward navigation
+window.addEventListener('hashchange', checkAdminRoute);
+window.addEventListener('popstate', checkAdminRoute);
 
 /* ===================== INIT ===================== */
 updateCounts();
